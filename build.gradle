@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.2'
+    }
+}
+
+apply plugin: 'fatjar'
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = 'net.spicesoftware'
+version = 'alpha-0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project('SpiceAPI')
+    compile 'com.google.guava:guava:18.0'
+    compile 'org.jogamp.jocl:jocl-main:2.2.1'
+    testCompile 'junit:junit:4.12'
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}

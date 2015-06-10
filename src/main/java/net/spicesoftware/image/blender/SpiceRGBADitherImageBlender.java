@@ -33,12 +33,12 @@ public class SpiceRGBADitherImageBlender extends SpiceRGBAImageBlender implement
                 rgba = image[pos];
                 a = ((rgba & 0xFF) * images[i].b) / 1000;
 
-                // �X�L�b�v����ꍇ�ł������͐�������
+                // スキップする場合でも乱数は生成する
                 rnd = random.nextInt(0xFF);
                 if (a == 0) {
-                    // �����Ȃ̂ŃX�L�b�v
+                    // 透明なのでスキップ
                 } else if (rnd < a) {
-                    // ���̉摜�̐F�ɕύX
+                    // この画像の色に変更
                     result[pos] = rgba | 0xFF;
                 }
             }

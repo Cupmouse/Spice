@@ -63,7 +63,7 @@ public class SpiceKeyFramedValue<T extends DeepCopyable> implements KeyFramedVal
 
     @Override
     public Pair<Integer, SpiceKeyFrame<T>> addKeyFrameAt(@Min(0) int frame, Interpolator<T> interpolator, T value) throws NotRegisteredInterpolatorException {
-        int index = keyFrames.size() == 0 ? 0 : getIndexAffectFirst(frame)+ 1;
+        int index = keyFrames.size() == 0 ? 0 : getIndexAffectFirst(frame) + 1;
         SpiceKeyFrame<T> newKeyframe = new SpiceKeyFrame<>(interpolator, value);
         keyFrames.add(index, Pair.of(frame, newKeyframe));
         return Pair.of(index, newKeyframe);

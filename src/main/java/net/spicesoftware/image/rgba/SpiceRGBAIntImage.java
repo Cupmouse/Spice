@@ -1,6 +1,5 @@
 package net.spicesoftware.image.rgba;
 
-import net.spicesoftware.SpiceSession;
 import net.spicesoftware.api.image.gs.CachedGrayScaleImage;
 import net.spicesoftware.api.image.rgb.CachedRGBImage;
 import net.spicesoftware.api.util.color.RGBA32Color;

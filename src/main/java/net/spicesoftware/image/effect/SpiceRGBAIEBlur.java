@@ -1,20 +1,15 @@
 package net.spicesoftware.image.effect;
 
 import net.spicesoftware.api.image.effect.GSImageEffect;
-import net.spicesoftware.api.image.effect.ImageEffect;
 import net.spicesoftware.api.image.effect.RGBAImageEffect;
 import net.spicesoftware.api.image.effect.RGBImageEffect;
-import net.spicesoftware.api.image.rgba.RGBAImage;
-import net.spicesoftware.api.util.vector.Vector2i;
-import net.spicesoftware.image.rgba.SpiceCachedRGBAImage;
-import net.spicesoftware.image.rgba.SpiceRGBAImage;
 
 /**
  * @since 2015/04/22
  */
 public class SpiceRGBAIEBlur implements GSImageEffect, RGBImageEffect, RGBAImageEffect {
 
-    // root(2^32)=4096ÉsÉNÉZÉãÇ‹Ç≈ÅB
+    // root(2^32)=4096„Éî„ÇØ„Çª„É´„Åæ„Åß„ÄÇ
     private int constant;
 
     public int[] applyNotImplemented(int width, int height, int[] data) {

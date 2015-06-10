@@ -1,6 +1,5 @@
 package net.spicesoftware.image.effect;
 
-import net.spicesoftware.api.image.effect.ImageEffect;
 import net.spicesoftware.api.image.effect.RGBAImageEffect;
 
 /**

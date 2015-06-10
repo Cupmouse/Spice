@@ -20,7 +20,7 @@ public abstract class SpiceRGBAImageBlender extends SpiceImageBlender<int[], Cac
 
     @Override
     public void blendData(int[] result, @Size(min = 2) Pair<int[], Integer>... images) {
-        // ƒpƒ‰ƒ[ƒ^‚Ì‰æ‘œ‚ª1ŒÂˆÈ‰º‚È‚çƒGƒ‰[
+        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ç”»åƒãŒ1å€‹ä»¥ä¸‹ãªã‚‰ã‚¨ãƒ©ãƒ¼
         if (images.length < 2)
             throw new IllegalArgumentException();
 
@@ -29,15 +29,15 @@ public abstract class SpiceRGBAImageBlender extends SpiceImageBlender<int[], Cac
         if (result.length != firstImageSize)
             throw new IllegalArgumentException();
 
-        // ƒTƒCƒY‚ª‘S‚Ä“¯‚¶‚©Aw’è‚³‚ê‚½“§–¾“x‚ğ•\‚·int‚Ìƒ‰ƒbƒp[‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ªnull‚Å‚È‚¢‚©ƒ`ƒFƒbƒN
+        // ã‚µã‚¤ã‚ºãŒå…¨ã¦åŒã˜ã‹ã€æŒ‡å®šã•ã‚ŒãŸé€æ˜åº¦ã‚’è¡¨ã™intã®ãƒ©ãƒƒãƒ‘ãƒ¼ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒnullã§ãªã„ã‹ãƒã‚§ãƒƒã‚¯
         for (int i = 1; i < images.length; i++) {
-            // ƒTƒCƒY‚ªˆÙ‚È‚é‰æ‘œ‚ª‚ ‚é‚Ì‚ÅƒGƒ‰[
+            // ã‚µã‚¤ã‚ºãŒç•°ãªã‚‹ç”»åƒãŒã‚ã‚‹ã®ã§ã‚¨ãƒ©ãƒ¼
             if (firstImageSize != images[i].a.length)
                 throw new IllegalArgumentException();
-            // ’l‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢
+            // å€¤ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„
             if (images[i].b == null)
                 throw new NullPointerException();
-            // •s“§–¾“x‚Ì’l‚ª”ÍˆÍ‚Éû‚Ü‚Á‚Ä‚¢‚È‚¢
+            // ä¸é€æ˜åº¦ã®å€¤ãŒç¯„å›²ã«åã¾ã£ã¦ã„ãªã„
             if (images[i].b < 0 || images[i].b > 1000)
                 throw new IllegalArgumentException();
         }

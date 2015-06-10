@@ -18,7 +18,7 @@ public class SpiceRGBALightenImageBlender extends SpiceRGBAImageBlender {
         int firgba, r, g, b, a, rgba, rf, gf, bf, af;
         int rs, gs, bs, as, ar, ad, t;
 
-        // RGBA‚ÌƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒfƒBƒ“ƒO‚Æ‚Ù‚Æ‚ñ‚Ç“¯‚¶
+        // RGBAã®ã‚¢ãƒ«ãƒ•ã‚¡ãƒ–ãƒ¬ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã¨ã»ã¨ã‚“ã©åŒã˜
         for (int pos = 0; pos < length; pos++) {
             rs = gs = bs = as = 0;
 
@@ -43,7 +43,7 @@ public class SpiceRGBALightenImageBlender extends SpiceRGBAImageBlender {
         }
 
 
-        // “§–¾“x‚È‚µ
+        // é€æ˜åº¦ãªã—
 //        for (int pos = 0; pos < length; pos++) {
 //            firgba = images[0].a[pos];
 //            a = ((firgba & 0xFF) * images[0].b) / 1000;

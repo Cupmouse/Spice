@@ -1,9 +1,6 @@
 package net.spicesoftware.image.blender;
 
-import net.spicesoftware.api.image.rgba.CachedRGBAImage;
 import net.spicesoftware.api.util.Pair;
-import net.spicesoftware.api.util.vector.Vector2i;
-import net.spicesoftware.image.rgba.SpiceCachedRGBAImage;
 
 import javax.validation.constraints.Size;
 

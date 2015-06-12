@@ -6,6 +6,8 @@ import net.spicesoftware.api.util.NotRegisteredInterpolatorException;
 import net.spicesoftware.api.value.Interpolator;
 import net.spicesoftware.api.value.KeyFrame;
 
+import java.util.Optional;
+
 /**
  * @since 2015/04/08
  */
@@ -15,7 +17,7 @@ public class SpiceKeyFrame<T extends DeepCopyable> implements KeyFrame<T> {
     private T value;
 
     public SpiceKeyFrame(Interpolator<T> interpolator, T value) throws NotRegisteredInterpolatorException {
-        setInterpolator(interpolator);
+        this.interpolator = interpolator;
         this.value = value;
     }
 
@@ -25,11 +27,14 @@ public class SpiceKeyFrame<T extends DeepCopyable> implements KeyFrame<T> {
     }
 
     @Override
-    public void setInterpolator(Interpolator<T> interpolator) throws NotRegisteredInterpolatorException {
-        if (!SpiceSession.getInstance().getRegistry().isRegisteredIntepolator(interpolator)) {
+    public void setInterpolator(Class<T> clazz, String id) throws NotRegisteredInterpolatorException {
+        Optional<Interpolator<T>> interpolator = SpiceSession.getInstance().getRegistry().getInterpolatorOf(clazz, id);
+
+        if (!interpolator.isPresent()) {
             throw new NotRegisteredInterpolatorException();
         }
-        this.interpolator = interpolator;
+
+        this.interpolator = interpolator.get();
     }
 
     @Override

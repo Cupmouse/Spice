@@ -22,6 +22,10 @@ public final class SpiceSession implements Spice {
 //        this.registry = new SpiceRegistry();
     }
 
+    public static SpiceSession getInstance() {
+        return instance;
+    }
+
     @Override
     public SpiceRegistry getRegistry() {
         return this.registry;
@@ -40,9 +44,5 @@ public final class SpiceSession implements Spice {
     @Override
     public void openProject(Project project) {
         this.projectOpening = project;
-    }
-
-    public static SpiceSession getInstance() {
-        return instance;
     }
 }

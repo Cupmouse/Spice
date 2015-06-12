@@ -11,7 +11,7 @@ public class RegistryTest {
     public static void main(String[] args) {
         SpiceRegistry spiceRegistry = new SpiceRegistry();
 
-        spiceRegistry.registerInterpolator("test", new Interpolator<Object>() {
+        spiceRegistry.registerInterpolator(Object.class, "test", new Interpolator<Object>() {
             @Override
             public Object calculate(@Min(0) int frameDuration, Object valueStart, Object valueEnd, @Min(0) int frameAt) throws IllegalArgumentException {
                 return null;

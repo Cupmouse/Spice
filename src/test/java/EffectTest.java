@@ -3,7 +3,6 @@ import net.spicesoftware.api.image.rgba.RGBAImage;
 import net.spicesoftware.image.blender.SpiceRGBALightenImageBlender;
 import net.spicesoftware.image.effect.SpiceRGBAIEBlur;
 import net.spicesoftware.image.effect.SpiceRGBAIENegative;
-import net.spicesoftware.image.gs.SpiceCachedGrayScaleImage;
 import net.spicesoftware.image.rgba.SpiceCachedRGBAImage;
 import net.spicesoftware.image.rgba.SpiceEditableRGBAImage;
 

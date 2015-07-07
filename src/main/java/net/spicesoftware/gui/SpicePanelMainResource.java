@@ -6,6 +6,12 @@ package net.spicesoftware.gui;
  */
 public class SpicePanelMainResource extends javax.swing.JPanel {
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTree resourceTree;
+    private javax.swing.JScrollPane scrollPane;
+    private net.spicesoftware.gui.common.SpiceTextField searchingTextField;
+    // End of variables declaration//GEN-END:variables
+
     public SpicePanelMainResource() {
         initComponents();
     }
@@ -33,11 +39,4 @@ public class SpicePanelMainResource extends javax.swing.JPanel {
         searchingTextField.getAccessibleContext().setAccessibleName("");
         searchingTextField.getAccessibleContext().setAccessibleDescription("");
     }// </editor-fold>//GEN-END:initComponents
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTree resourceTree;
-    private javax.swing.JScrollPane scrollPane;
-    private net.spicesoftware.gui.common.SpiceTextField searchingTextField;
-    // End of variables declaration//GEN-END:variables
 }

@@ -8,6 +8,12 @@ import javax.swing.*;
  */
 public class SpicePanelMainPreview extends JPanel {
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private net.spicesoftware.gui.preview.SpicePanelPreview preview;
+    private net.spicesoftware.gui.preview.SpicePanelPreviewInterface previewInterface;
+    // End of variables declaration//GEN-END:variables
+
+
     public SpicePanelMainPreview() {
         initComponents();
     }
@@ -35,10 +41,4 @@ public class SpicePanelMainPreview extends JPanel {
 
         add(preview, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private net.spicesoftware.gui.preview.SpicePanelPreview preview;
-    private net.spicesoftware.gui.preview.SpicePanelPreviewInterface previewInterface;
-    // End of variables declaration//GEN-END:variables
 }

@@ -1,5 +1,7 @@
 package net.spicesoftware.gui.common;
 
+import net.spicesoftware.api.gui.common.TextField;
+
 import javax.swing.*;
 import javax.swing.text.Document;
 import java.awt.*;
@@ -9,7 +11,7 @@ import java.awt.event.FocusListener;
 /**
  * @since 2015/06/06
  */
-public class SpiceTextField extends JTextField implements FocusListener {
+public class SpiceTextField extends JTextField implements TextField, FocusListener {
 
     private String placeHolder;
 
@@ -66,10 +68,12 @@ public class SpiceTextField extends JTextField implements FocusListener {
     プレースホルダ
      */
 
+    @Override
     public String getPlaceHolder() {
         return placeHolder;
     }
 
+    @Override
     public void setPlaceHolder(String placeHolder) {
         this.placeHolder = placeHolder;
     }

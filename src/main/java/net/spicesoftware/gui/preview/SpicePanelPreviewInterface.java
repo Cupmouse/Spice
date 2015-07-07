@@ -8,6 +8,17 @@ import javax.swing.*;
  */
 public class SpicePanelPreviewInterface extends JPanel {
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonBackFrame;
+    private javax.swing.JButton buttonNextFrame;
+    private javax.swing.JButton buttonPause;
+    private javax.swing.JButton buttonPlay;
+    private javax.swing.JButton buttonPlayBackward;
+    private javax.swing.JButton buttonStop;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    // End of variables declaration//GEN-END:variables
+
     public SpicePanelPreviewInterface() {
         initComponents();
     }
@@ -57,16 +68,4 @@ public class SpicePanelPreviewInterface extends JPanel {
     private void buttonNextFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNextFrameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonNextFrameActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonBackFrame;
-    private javax.swing.JButton buttonNextFrame;
-    private javax.swing.JButton buttonPause;
-    private javax.swing.JButton buttonPlay;
-    private javax.swing.JButton buttonPlayBackward;
-    private javax.swing.JButton buttonStop;
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler2;
-    // End of variables declaration//GEN-END:variables
 }

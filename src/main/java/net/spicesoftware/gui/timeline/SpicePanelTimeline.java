@@ -6,6 +6,12 @@ package net.spicesoftware.gui.timeline;
  */
 public class SpicePanelTimeline extends javax.swing.JPanel {
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollBar xScroll;
+    private javax.swing.JScrollBar yScroll;
+    // End of variables declaration//GEN-END:variables
+
+
     public SpicePanelTimeline() {
         initComponents();
     }
@@ -23,10 +29,4 @@ public class SpicePanelTimeline extends javax.swing.JPanel {
         add(xScroll, java.awt.BorderLayout.PAGE_END);
         add(yScroll, java.awt.BorderLayout.LINE_END);
     }// </editor-fold>//GEN-END:initComponents
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollBar xScroll;
-    private javax.swing.JScrollBar yScroll;
-    // End of variables declaration//GEN-END:variables
 }

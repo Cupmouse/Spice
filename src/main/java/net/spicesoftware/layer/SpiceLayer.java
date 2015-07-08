@@ -3,7 +3,7 @@ package net.spicesoftware.layer;
 import net.spicesoftware.api.image.blender.ImageBlender;
 import net.spicesoftware.api.item.Item;
 import net.spicesoftware.api.layer.Layer;
-import net.spicesoftware.api.util.NotRegisteredImageBlenderException;
+import net.spicesoftware.api.util.NotRegisteredInRegistryException;
 import net.spicesoftware.api.util.time.FrameRanged;
 
 import javax.validation.constraints.Min;
@@ -74,7 +74,7 @@ public class SpiceLayer implements Layer {
     }
 
     @Override
-    public void setBlender(ImageBlender blender) throws NotRegisteredImageBlenderException {
+    public void setBlender(ImageBlender blender) throws NotRegisteredInRegistryException {
 
     }
 

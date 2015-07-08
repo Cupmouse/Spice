@@ -14,7 +14,9 @@ import net.spicesoftware.api.resource.builder.ResourceImageBuilder;
 import net.spicesoftware.api.resource.builder.ResourceShapeBuilder;
 import net.spicesoftware.api.resource.builder.ResourceSoundBuilder;
 import net.spicesoftware.api.resource.builder.ResourceVideoBuilder;
-import net.spicesoftware.api.util.*;
+import net.spicesoftware.api.util.AlreadyRegisteredInRegistryException;
+import net.spicesoftware.api.util.NotRegisteredInRegistryException;
+import net.spicesoftware.api.util.Pair;
 import net.spicesoftware.api.util.decoration.fill.color.GrayScaleColor;
 import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
 import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
@@ -233,7 +235,7 @@ public class SpiceRegistry implements Registry {
     }
 
     @Override
-    public <T> void registerInterpolator(Class<T> clazz, @Size(min = 1) String id, Interpolator<T> interpolator) throws AlreadyRegisteredException {
+    public <T> void registerInterpolator(Class<T> clazz, @Size(min = 1) String id, Interpolator<T> interpolator) throws AlreadyRegisteredInRegistryException {
         Map<String, Interpolator> classInterpolators;
 
         if ((classInterpolators = interpolators.get(clazz)) == null) {
@@ -259,7 +261,7 @@ public class SpiceRegistry implements Registry {
     }
 
     @Override
-    public <T> Optional<String> getInterpolatorsId(Class<T> clazz, Interpolator<T> interpolator) throws NotRegisteredInterpolatorException {
+    public <T> Optional<String> getInterpolatorsId(Class<T> clazz, Interpolator<T> interpolator) throws NotRegisteredInRegistryException {
         Map<String, Interpolator> classInterpolators = interpolators.get(clazz);
 
         if (classInterpolators == null) {
@@ -281,7 +283,7 @@ public class SpiceRegistry implements Registry {
     }
 
     @Override
-    public <I extends CachedImage> void registerImageBlender(Class<I> clazz, @Size(min = 1) String id, ImageBlender<?, I> imageBlender) throws AlreadyRegisteredException {
+    public <I extends CachedImage> void registerImageBlender(Class<I> clazz, @Size(min = 1) String id, ImageBlender<?, I> imageBlender) throws AlreadyRegisteredInRegistryException {
         Map<String, ImageBlender> classImageBlenders = imageBlenders.get(clazz);
 
         if (classImageBlenders == null) {
@@ -307,7 +309,7 @@ public class SpiceRegistry implements Registry {
     }
 
     @Override
-    public <I extends CachedImage> Optional<String> getImageBlendersId(Class<I> clazz, ImageBlender<?, I> imageBlender) throws NotRegisteredImageBlenderException {
+    public <I extends CachedImage> Optional<String> getImageBlendersId(Class<I> clazz, ImageBlender<?, I> imageBlender) throws NotRegisteredInRegistryException {
         Map<String, ImageBlender> classImageBlenders = imageBlenders.get(clazz);
 
         if (classImageBlenders == null) {
@@ -329,7 +331,7 @@ public class SpiceRegistry implements Registry {
     }
 
     @Override
-    public <I extends Image, O extends CachedImage> void registerImageConverter(Class<I> inputImageClass, Class<O> outputImageClass, @Size(min = 1) String id, ImageConverter<I, O> imageConverter) throws AlreadyRegisteredException {
+    public <I extends Image, O extends CachedImage> void registerImageConverter(Class<I> inputImageClass, Class<O> outputImageClass, @Size(min = 1) String id, ImageConverter<I, O> imageConverter) throws AlreadyRegisteredInRegistryException {
         Map<String, ImageConverter> classImageConverter = imageConverters.get(Pair.of(inputImageClass, outputImageClass));
 
         if (classImageConverter == null) {
@@ -355,7 +357,7 @@ public class SpiceRegistry implements Registry {
     }
 
     @Override
-    public <I extends Image, O extends CachedImage> Optional<String> getImageConvertersId(Class<I> inputImageClass, Class<O> outputImageClass, ImageConverter<I, O> imageConverter) throws NotRegisteredImageConverterException {
+    public <I extends Image, O extends CachedImage> Optional<String> getImageConvertersId(Class<I> inputImageClass, Class<O> outputImageClass, ImageConverter<I, O> imageConverter) throws NotRegisteredInRegistryException {
         Map<String, ImageConverter> classImageConverter = imageConverters.get(Pair.of(inputImageClass, outputImageClass));
 
         if (classImageConverter == null) {

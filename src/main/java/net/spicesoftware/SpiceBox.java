@@ -3,7 +3,7 @@ package net.spicesoftware;
 import net.spicesoftware.api.Box;
 import net.spicesoftware.api.layer.Layer;
 import net.spicesoftware.api.layer.StaticField;
-import net.spicesoftware.api.util.color.RGBA32Color;
+import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
 import net.spicesoftware.api.util.vector.Vector2i;
 import net.spicesoftware.layer.SpiceLayer;
 import net.spicesoftware.layer.SpiceStaticField;

@@ -4,7 +4,7 @@ import net.spicesoftware.SpiceSession;
 import net.spicesoftware.api.image.gs.CachedGrayScaleImage;
 import net.spicesoftware.api.image.gs.EditableGrayScaleImage;
 import net.spicesoftware.api.image.rgb.EditableCSRGBImage;
-import net.spicesoftware.api.util.color.RGB24Color;
+import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
 import net.spicesoftware.api.util.vector.Vector2i;
 import net.spicesoftware.image.gs.SpiceCachedGrayScaleImage;
 import net.spicesoftware.image.rgba.SpiceCachedRGBAImage;

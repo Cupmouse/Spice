@@ -3,7 +3,7 @@ package net.spicesoftware.image.gs;
 import net.spicesoftware.api.image.gs.GrayScaleImage;
 import net.spicesoftware.api.image.rgb.CachedRGBImage;
 import net.spicesoftware.api.image.rgba.CachedRGBAImage;
-import net.spicesoftware.api.util.color.GrayScaleColor;
+import net.spicesoftware.api.util.decoration.fill.color.GrayScaleColor;
 import net.spicesoftware.api.util.vector.Vector2i;
 import net.spicesoftware.image.SpiceImage;
 import net.spicesoftware.image.rgba.SpiceCachedRGBAImage;

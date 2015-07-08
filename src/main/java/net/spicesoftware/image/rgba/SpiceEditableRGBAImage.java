@@ -2,7 +2,7 @@ package net.spicesoftware.image.rgba;
 
 import net.spicesoftware.api.image.rgba.CachedRGBAImage;
 import net.spicesoftware.api.image.rgba.EditableRGBAImage;
-import net.spicesoftware.api.util.color.RGBA32Color;
+import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 import javax.validation.constraints.Max;

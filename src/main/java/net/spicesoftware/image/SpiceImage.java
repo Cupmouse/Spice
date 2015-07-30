@@ -18,8 +18,8 @@ public abstract class SpiceImage implements Image {
             throw new IllegalArgumentException();
     }
 
-    protected void validPosition(int x, int y) {
-        if (x < 0 || y < 0)
+    protected void validatePosition(int x, int y) {
+        if (x < 0 || y < 0 || x >= width || y >= height)
             throw new IllegalArgumentException();
     }
 

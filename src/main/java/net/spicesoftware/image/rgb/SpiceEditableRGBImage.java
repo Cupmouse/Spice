@@ -27,7 +27,7 @@ public final class SpiceEditableRGBImage extends SpiceRGBIntImage implements Edi
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, @Min(0) @Max(0xFFFFFF) int color) {
-        validPosition(x, y);
+        validatePosition(x, y);
         if (color < 0 || color > 0xFFFFFF)
             throw new IllegalArgumentException();
 
@@ -41,7 +41,7 @@ public final class SpiceEditableRGBImage extends SpiceRGBIntImage implements Edi
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, RGB24Color color) {
-        validPosition(x, y);
+        validatePosition(x, y);
         this.data[width * y + x] = color.getIntValue();
     }
 

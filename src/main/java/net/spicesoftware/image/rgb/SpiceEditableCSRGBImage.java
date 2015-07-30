@@ -61,7 +61,7 @@ public final class SpiceEditableCSRGBImage extends SpiceRGBImage implements Edit
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, @Min(0) @Max(0xFFFFFF) int color) {
-        validPosition(x, y);
+        validatePosition(x, y);
         if (color < 0 || color > 0xFFFFFF)
             throw new IllegalArgumentException();
 
@@ -94,7 +94,7 @@ public final class SpiceEditableCSRGBImage extends SpiceRGBImage implements Edit
 
     @Override
     public RGB24Color getColorAt(@Min(0) int x, @Min(0) int y) {
-        validPosition(x, y);
+        validatePosition(x, y);
         return new RGB24Color(channelR.getColorIntAt(x, y), channelG.getColorIntAt(x, y), channelB.getColorIntAt(x, y));
     }
 
@@ -105,7 +105,7 @@ public final class SpiceEditableCSRGBImage extends SpiceRGBImage implements Edit
 
     @Override
     public int getColorIntAt(@Min(0) int x, @Min(0) int y) {
-        validPosition(x, y);
+        validatePosition(x, y);
         return channelR.getColorIntAt(x, y) << 16 | channelG.getColorIntAt(x, y) << 8 | channelB.getColorIntAt(x, y);
     }
 

@@ -12,6 +12,7 @@ import javax.validation.constraints.Min;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @since 2015/03/21
@@ -29,9 +30,7 @@ public abstract class SpiceBox implements Box {
         width = copyFrom.width;
         height = copyFrom.height;
         backgroundColor = copyFrom.backgroundColor;
-        for (Layer layer : copyFrom.layers) {
-            layers.add(layer.copyDeeply());
-        }
+        layers.addAll(copyFrom.layers.stream().map(Layer::copyDeeply).collect(Collectors.toList()));
     }
 
     public SpiceBox(int width, int height) {

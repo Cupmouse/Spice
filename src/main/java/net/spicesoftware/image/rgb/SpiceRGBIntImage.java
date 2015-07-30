@@ -49,7 +49,7 @@ public abstract class SpiceRGBIntImage extends SpiceRGBImage {
 
     @Override
     public final RGB24Color getColorAt(@Min(0) int x, @Min(0) int y) {
-        validPosition(x, y);
+        validatePosition(x, y);
         return new RGB24Color(data[width * y + x]);
     }
 
@@ -60,7 +60,7 @@ public abstract class SpiceRGBIntImage extends SpiceRGBImage {
 
     @Override
     public final int getColorIntAt(@Min(0) int x, @Min(0) int y) {
-        validPosition(x, y);
+        validatePosition(x, y);
         return data[width * y + x];
     }
 

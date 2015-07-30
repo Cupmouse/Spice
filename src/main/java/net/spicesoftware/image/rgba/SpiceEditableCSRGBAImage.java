@@ -58,7 +58,7 @@ public final class SpiceEditableCSRGBAImage extends SpiceRGBAImage implements Ed
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, @Min(0) @Max(0xFFFFFF) int color, @Min(0) @Max(0xFF) int transparent) {
-        validPosition(x, y);
+        validatePosition(x, y);
         if (color < 0 || color > 0xFFFFFF)
             throw new IllegalArgumentException();
         if (transparent < 0 || transparent > 0xFF)
@@ -77,7 +77,7 @@ public final class SpiceEditableCSRGBAImage extends SpiceRGBAImage implements Ed
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, @Min(0) @Max(0xFFFFFFFF) long color) {
-        validPosition(x, y);
+        validatePosition(x, y);
         if (color < 0 || color > 0xFFFFFFFF)
             throw new IllegalArgumentException();
 
@@ -94,7 +94,7 @@ public final class SpiceEditableCSRGBAImage extends SpiceRGBAImage implements Ed
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, @Min(-2147483648) @Max(2147483647) int color) {
-        validPosition(x, y);
+        validatePosition(x, y);
         this.channelR.setColor(x, y, ((byte) (color >>> 24)));
         this.channelG.setColor(x, y, ((byte) (color >>> 16)));
         this.channelB.setColor(x, y, ((byte) (color >>> 8)));
@@ -108,7 +108,7 @@ public final class SpiceEditableCSRGBAImage extends SpiceRGBAImage implements Ed
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, RGBA32Color color) {
-        validPosition(x, y);
+        validatePosition(x, y);
         this.channelR.setColor(x, y, ((byte) color.r));
         this.channelG.setColor(x, y, ((byte) color.g));
         this.channelB.setColor(x, y, ((byte) color.b));
@@ -127,7 +127,7 @@ public final class SpiceEditableCSRGBAImage extends SpiceRGBAImage implements Ed
 
     @Override
     public RGBA32Color getColorAt(@Min(0) int x, @Min(0) int y) {
-        validPosition(x, y);
+        validatePosition(x, y);
         return new RGBA32Color(channelR.getColorIntAt(x, y), channelG.getColorIntAt(x, y), channelB.getColorIntAt(x, y), channelA.getColorIntAt(x, y));
     }
 
@@ -138,7 +138,7 @@ public final class SpiceEditableCSRGBAImage extends SpiceRGBAImage implements Ed
 
     @Override
     public long getColorLongAt(@Min(0) int x, @Min(0) int y) {
-        validPosition(x, y);
+        validatePosition(x, y);
         return channelR.getColorIntAt(x, y) << 24 | channelG.getColorIntAt(x, y) << 16 | channelB.getColorIntAt(x, y) << 8 | channelA.getColorIntAt(x, y);
     }
 

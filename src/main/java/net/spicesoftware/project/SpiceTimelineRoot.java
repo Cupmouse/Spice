@@ -2,7 +2,7 @@ package net.spicesoftware.project;
 
 import net.spicesoftware.SpiceBox;
 import net.spicesoftware.api.project.TimelineRoot;
-import net.spicesoftware.api.util.color.RGBA32Color;
+import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
 
 /**
  * @since 2015/03/21

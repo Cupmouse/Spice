@@ -1,7 +1,7 @@
 package net.spicesoftware.image.gs;
 
 import net.spicesoftware.api.image.gs.EditableGrayScaleImage;
-import net.spicesoftware.api.util.color.GrayScaleColor;
+import net.spicesoftware.api.util.decoration.fill.color.GrayScaleColor;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 import javax.validation.constraints.Max;
@@ -26,7 +26,7 @@ public final class SpiceEditableGrayScaleImage extends SpiceGrayScaleImage imple
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, @Min(0) @Max(0xFF) int color) {
-        validPosition(x, y);
+        validatePosition(x, y);
         if (color < 0 || color > 0xFF)
             throw new IllegalArgumentException();
 
@@ -40,7 +40,7 @@ public final class SpiceEditableGrayScaleImage extends SpiceGrayScaleImage imple
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, @Min(-128) @Max(127) byte color) {
-        validPosition(x, y);
+        validatePosition(x, y);
         this.data[width * y + x] = color;
     }
 
@@ -51,7 +51,7 @@ public final class SpiceEditableGrayScaleImage extends SpiceGrayScaleImage imple
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, GrayScaleColor color) {
-        validPosition(x, y);
+        validatePosition(x, y);
         this.data[width * y + x] = (byte) color.w;
     }
 

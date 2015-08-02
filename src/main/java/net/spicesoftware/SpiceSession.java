@@ -19,7 +19,7 @@ public final class SpiceSession implements Spice {
 
     public SpiceSession() {
         instance = this;
-//        this.registry = new SpiceRegistry();
+        this.registry = new SpiceRegistry();
     }
 
     public static SpiceSession getInstance() {

@@ -2,7 +2,7 @@ package net.spicesoftware.image.rgb;
 
 import net.spicesoftware.api.image.rgb.CachedRGBImage;
 import net.spicesoftware.api.image.rgb.EditableRGBImage;
-import net.spicesoftware.api.util.color.RGB24Color;
+import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 import javax.validation.constraints.Max;
@@ -27,7 +27,7 @@ public final class SpiceEditableRGBImage extends SpiceRGBIntImage implements Edi
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, @Min(0) @Max(0xFFFFFF) int color) {
-        validPosition(x, y);
+        validatePosition(x, y);
         if (color < 0 || color > 0xFFFFFF)
             throw new IllegalArgumentException();
 
@@ -41,8 +41,8 @@ public final class SpiceEditableRGBImage extends SpiceRGBIntImage implements Edi
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, RGB24Color color) {
-        validPosition(x, y);
-        this.data[width * y + x] = color.getIntValue();
+        validatePosition(x, y);
+        this.data[width * y + x] = color.toRGB24Int();
     }
 
     @Override

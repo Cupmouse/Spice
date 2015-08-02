@@ -7,7 +7,7 @@ package net.spicesoftware.gui.common.colorselector;
 
 import net.spicesoftware.api.gui.common.colorpicker.RGB24ColorSelectorSquare;
 import net.spicesoftware.api.gui.common.spinner.IntSpinner;
-import net.spicesoftware.api.util.color.RGB24Color;
+import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
 
 /**
  * @author Cupmouse

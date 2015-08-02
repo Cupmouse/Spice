@@ -1,7 +1,7 @@
 package net.spicesoftware.value;
 
 import net.spicesoftware.api.util.DeepCopyable;
-import net.spicesoftware.api.util.NotRegisteredInterpolatorException;
+import net.spicesoftware.api.util.NotRegisteredInRegistryException;
 import net.spicesoftware.api.util.Pair;
 import net.spicesoftware.api.value.Interpolator;
 import net.spicesoftware.api.value.KeyFramedValue;
@@ -62,7 +62,7 @@ public class SpiceKeyFramedValue<T extends DeepCopyable> implements KeyFramedVal
     }
 
     @Override
-    public Pair<Integer, SpiceKeyFrame<T>> addKeyFrameAt(@Min(0) int frame, Interpolator<T> interpolator, T value) throws NotRegisteredInterpolatorException {
+    public Pair<Integer, SpiceKeyFrame<T>> addKeyFrameAt(@Min(0) int frame, Interpolator<T> interpolator, T value) throws NotRegisteredInRegistryException {
         int index = keyFrames.size() == 0 ? 0 : getIndexAffectFirst(frame) + 1;
         SpiceKeyFrame<T> newKeyframe = new SpiceKeyFrame<>(interpolator, value);
         keyFrames.add(index, Pair.of(frame, newKeyframe));

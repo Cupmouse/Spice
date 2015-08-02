@@ -2,7 +2,7 @@ package net.spicesoftware.image.rgba;
 
 import net.spicesoftware.api.image.rgba.CachedRGBAImage;
 import net.spicesoftware.api.image.rgba.EditableRGBAImage;
-import net.spicesoftware.api.util.color.RGBA32Color;
+import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 import javax.validation.constraints.Max;
@@ -27,7 +27,7 @@ public final class SpiceEditableRGBAImage extends SpiceRGBAIntImage implements E
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, @Min(0) @Max(0xFFFFFF) int color, @Min(0) @Max(0xFF) int transparent) {
-        validPosition(x, y);
+        validatePosition(x, y);
         if (color < 0 || color > 0xFFFFFF)
             throw new IllegalArgumentException();
         if (transparent < 0 || transparent > 0xFF)
@@ -43,7 +43,7 @@ public final class SpiceEditableRGBAImage extends SpiceRGBAIntImage implements E
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, @Min(0) @Max(0xFFFFFFFF) long color) {
-        validPosition(x, y);
+        validatePosition(x, y);
         if (color < 0 || color > 0xFFFFFFFF)
             throw new IllegalArgumentException();
 
@@ -57,7 +57,7 @@ public final class SpiceEditableRGBAImage extends SpiceRGBAIntImage implements E
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, @Min(-2147483648) @Max(2147483647) int color) {
-        validPosition(x, y);
+        validatePosition(x, y);
         this.data[width * y + x] = color;
     }
 
@@ -68,8 +68,8 @@ public final class SpiceEditableRGBAImage extends SpiceRGBAIntImage implements E
 
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, RGBA32Color color) {
-        validPosition(x, y);
-        this.data[width * y + x] = color.getIntValue();
+        validatePosition(x, y);
+        this.data[width * y + x] = color.toRGBA32Int();
     }
 
     @Override

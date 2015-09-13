@@ -1,28 +1,42 @@
 package net.spicesoftware.image.rgba;
 
-import net.spicesoftware.api.image.gs.CachedGrayScaleImage;
-import net.spicesoftware.api.image.rgb.CachedRGBImage;
+import net.spicesoftware.api.image.gs.CachedGrayScale8Image;
+import net.spicesoftware.api.image.rgb.CachedRGB24Image;
 import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
 import net.spicesoftware.api.util.vector.Vector2i;
-import net.spicesoftware.image.gs.SpiceCachedGrayScaleImage;
+import net.spicesoftware.image.gs.SpiceCachedGrayScale8Image;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.Arrays;
 
 /**
  * @since 2015/03/20
  */
-public abstract class SpiceRGBAIntImage extends SpiceRGBAImage {
+public abstract class SpiceRGBAInt32Image extends SpiceRGBA32Image {
 
     protected final int[] data;
 
-    public SpiceRGBAIntImage(@Min(0) int width, @Min(0) int height) {
+    public SpiceRGBAInt32Image(Vector2i vector2i) {
+        this(vector2i.x, vector2i.y);
+    }
+
+    public SpiceRGBAInt32Image(Vector2i vector2i, int backgroundColor) {
+        this(vector2i.x, vector2i.y, backgroundColor);
+    }
+
+    public SpiceRGBAInt32Image(Vector2i vector2i, @Size(min = 1) int[] data) {
+        this(vector2i.x, vector2i.y, data);
+    }
+
+    public SpiceRGBAInt32Image(@Min(1) int width, @Min(1) int height) {
         super(width, height);
+
         // 画像のデータを作成（0x00000000なので、透明）
         this.data = new int[width * height];
     }
 
-    public SpiceRGBAIntImage(@Min(0) int width, @Min(0) int height, int backgroundColor) {
+    public SpiceRGBAInt32Image(@Min(1) int width, @Min(1) int height, int backgroundColor) {
         super(width, height);
 
         // 背景画像だけの画像のデータを作成
@@ -30,8 +44,9 @@ public abstract class SpiceRGBAIntImage extends SpiceRGBAImage {
         Arrays.fill(data, backgroundColor);
     }
 
-    public SpiceRGBAIntImage(@Min(0) int width, @Min(0) int height, int[] data) {
+    public SpiceRGBAInt32Image(@Min(1) int width, @Min(1) int height, @Size(min = 1) int[] data) {
         super(width, height);
+
         if (data.length != width * height)
             throw new IllegalArgumentException();
 
@@ -74,44 +89,34 @@ public abstract class SpiceRGBAIntImage extends SpiceRGBAImage {
     }
 
     @Override
-    public final CachedGrayScaleImage extractChannelR() {
+    public final CachedGrayScale8Image extractChannelR() {
         byte[] gsdata = new byte[data.length];
         for (int i = 0; i < data.length; i++)
             gsdata[i] = (byte) (data[i] >>> 24);
-        return new SpiceCachedGrayScaleImage(width, height, gsdata);
+        return new SpiceCachedGrayScale8Image(width, height, gsdata);
     }
 
     @Override
-    public final CachedGrayScaleImage extractChannelG() {
+    public final CachedGrayScale8Image extractChannelG() {
         byte[] gsdata = new byte[data.length];
         for (int i = 0; i < data.length; i++)
             gsdata[i] = (byte) (data[i] >>> 16);
-        return new SpiceCachedGrayScaleImage(width, height, gsdata);
+        return new SpiceCachedGrayScale8Image(width, height, gsdata);
     }
 
     @Override
-    public final CachedGrayScaleImage extractChannelB() {
+    public final CachedGrayScale8Image extractChannelB() {
         byte[] gsdata = new byte[data.length];
         for (int i = 0; i < data.length; i++)
             gsdata[i] = (byte) (data[i] >>> 8);
-        return new SpiceCachedGrayScaleImage(width, height, gsdata);
+        return new SpiceCachedGrayScale8Image(width, height, gsdata);
     }
 
     @Override
-    public final CachedGrayScaleImage extractChannelA() {
+    public final CachedGrayScale8Image extractChannelA() {
         byte[] gsdata = new byte[data.length];
         for (int i = 0; i < data.length; i++)
             gsdata[i] = (byte) (data[i]);
-        return new SpiceCachedGrayScaleImage(width, height, gsdata);
-    }
-
-    @Override
-    public final CachedRGBImage toRGBImage() {
-        return null;
-    }
-
-    @Override
-    public final CachedGrayScaleImage toGrayScaleImage() {
-        return null;
+        return new SpiceCachedGrayScale8Image(width, height, gsdata);
     }
 }

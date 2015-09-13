@@ -1,10 +1,12 @@
-import net.spicesoftware.api.image.blender.RGBAImageBlender;
-import net.spicesoftware.api.image.rgba.RGBAImage;
+import net.spicesoftware.api.image.blender.ImageBlender;
+import net.spicesoftware.api.image.blender.property.IBPropertyOpacity;
+import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
+import net.spicesoftware.api.image.rgba.RGBA32Image;
 import net.spicesoftware.image.blender.SpiceRGBALightenImageBlender;
-import net.spicesoftware.image.effect.SpiceRGBAIEBlur;
-import net.spicesoftware.image.effect.SpiceRGBAIENegative;
-import net.spicesoftware.image.rgba.SpiceCachedRGBAImage;
-import net.spicesoftware.image.rgba.SpiceEditableRGBAImage;
+import net.spicesoftware.image.effect.SpiceRGBA32IEBlur;
+import net.spicesoftware.image.effect.SpiceRGBA32IENegative;
+import net.spicesoftware.image.rgba.SpiceCachedRGBA32Image;
+import net.spicesoftware.image.rgba.SpiceEditableRGBA32Image;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,24 +22,25 @@ import java.util.stream.IntStream;
 /**
  * @since 2015/03/25
  */
+// TODO
 public class EffectTest extends JFrame {
 
     private static EffectTest frame;
-    private static SpiceEditableRGBAImage i1;
-    private static SpiceCachedRGBAImage i2;
-    private static SpiceCachedRGBAImage i3;
-    private static RGBAImage ir;
-    private static SpiceCachedRGBAImage i4;
+    private static SpiceCachedRGBA32Image i1;
+    private static SpiceCachedRGBA32Image i2;
+    private static SpiceCachedRGBA32Image i3;
+    private static RGBA32Image ir;
+    private static SpiceCachedRGBA32Image i4;
 
     public static void main(String[] args) {
-        i1 = load(new File("src/test/resource/test1a.png"));
+        i1 = load(new File("src/test/resource/test2a.png"));
 
         System.out.println(i1.width + " : " + i1.height);
 
-//        i1 = new SpiceEditableRGBAImage(1920, 1080, (int) 0xff00007FL);
-        i2 = new SpiceCachedRGBAImage(i1.width, i1.height, (int) (0x00ff00ffL));
-        i3 = new SpiceCachedRGBAImage(i1.width, i1.height, (int) (0x807f00ffL));
-        i4 = new SpiceCachedRGBAImage(i1.width, i1.height, (int) (0xffffffffL));
+//        i1 = new SpiceEditableRGBA32Image(1920, 1080, (int) 0xff00007FL);
+        i2 = new SpiceCachedRGBA32Image(i1.width, i1.height, (int) (0x00ff00ffL));
+        i3 = new SpiceCachedRGBA32Image(i1.width, i1.height, (int) (0x807f00ffL));
+        i4 = new SpiceCachedRGBA32Image(i1.width, i1.height, (int) (0xffffffffL));
 
 //        try {
 //            Thread.sleep(5000);
@@ -46,11 +49,11 @@ public class EffectTest extends JFrame {
 //        }
 
         long starts = System.currentTimeMillis();
-        RGBAImageBlender rgbaImageBlender = new SpiceRGBALightenImageBlender();
-        SpiceRGBAIEBlur effectGaussianBlur = new SpiceRGBAIEBlur();
+        ImageBlender<CachedRGBA32Image, IBPropertyOpacity> rgbaImageBlender = new SpiceRGBALightenImageBlender();
+        SpiceRGBA32IEBlur effectGaussianBlur = new SpiceRGBA32IEBlur();
         effectGaussianBlur.setConstant(10);
-        SpiceRGBAIENegative effectNegative = new SpiceRGBAIENegative();
-        IntStream.range(0, 3).forEach(i -> ir = new SpiceCachedRGBAImage(i1.getWidth(), i1.getHeight(), effectGaussianBlur.applyRGBA(i1.getWidth(), i1.getHeight(), i1.getData())));
+        SpiceRGBA32IENegative effectNegative = new SpiceRGBA32IENegative();
+        IntStream.range(0, 3).forEach(i -> ir = effectGaussianBlur.apply(i1));
         System.out.println(System.currentTimeMillis() - starts);
 
         frame = new EffectTest();
@@ -67,7 +70,7 @@ public class EffectTest extends JFrame {
         frame.pack();
     }
 
-    private static SpiceEditableRGBAImage load(File file) {
+    private static SpiceCachedRGBA32Image load(File file) {
         BufferedImage bi = null;
         try {
             bi = ImageIO.read(new FileInputStream(file));
@@ -82,7 +85,7 @@ public class EffectTest extends JFrame {
             }
         }
 
-        return new SpiceEditableRGBAImage(bi.getWidth(), bi.getHeight(), data1);
+        return new SpiceCachedRGBA32Image(bi.getWidth(), bi.getHeight(), data1);
     }
 
     private void drawPoint(Graphics graphics, int color, int x, int y) {

@@ -1,13 +1,13 @@
 package net.spicesoftware.image.rgba;
 
-import net.spicesoftware.api.image.gs.CachedGrayScaleImage;
-import net.spicesoftware.api.image.gs.EditableGrayScaleImage;
-import net.spicesoftware.api.image.rgb.CachedRGBImage;
-import net.spicesoftware.api.image.rgba.CachedRGBAImage;
-import net.spicesoftware.api.image.rgba.EditableRGBAImage;
+import net.spicesoftware.api.image.gs.CachedGrayScale8Image;
+import net.spicesoftware.api.image.gs.EditableGrayScale8Image;
+import net.spicesoftware.api.image.rgb.CachedRGB24Image;
+import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
+import net.spicesoftware.api.image.rgba.EditableRGBA32Image;
 import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
 import net.spicesoftware.api.util.vector.Vector2i;
-import net.spicesoftware.image.gs.SpiceEditableGrayScaleImage;
+import net.spicesoftware.image.gs.SpiceEditableGrayScale8Image;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -16,40 +16,49 @@ import java.util.Arrays;
 /**
  * @since 2015/03/20
  */
-public final class SpiceEditableCSRGBAImage extends SpiceRGBAImage implements EditableRGBAImage {
+public final class SpiceEditableCSRGBA32Image extends SpiceRGBA32Image implements EditableRGBA32Image {
 
-    private EditableGrayScaleImage channelR;
-    private EditableGrayScaleImage channelG;
-    private EditableGrayScaleImage channelB;
-    private EditableGrayScaleImage channelA;
+    private EditableGrayScale8Image channelR;
+    private EditableGrayScale8Image channelG;
+    private EditableGrayScale8Image channelB;
+    private EditableGrayScale8Image channelA;
 
-    public SpiceEditableCSRGBAImage(int width, int height) {
+    public SpiceEditableCSRGBA32Image(Vector2i vector2i) {
+        this(vector2i.x, vector2i.y);
+    }
+
+    public SpiceEditableCSRGBA32Image(Vector2i vector2i, int backgroundColor) {
+        this(vector2i.x, vector2i.y, backgroundColor);
+    }
+
+    public SpiceEditableCSRGBA32Image(Vector2i vector2i, EditableGrayScale8Image channelR, EditableGrayScale8Image channelG, EditableGrayScale8Image channelB, EditableGrayScale8Image channelA) {
+        this(vector2i.x, vector2i.y, channelR, channelG, channelB, channelA);
+    }
+
+    public SpiceEditableCSRGBA32Image(@Min(1) int width, @Min(1) int height) {
         super(width, height);
+
         byte[] data = new byte[width * height];
         Arrays.fill(data, (byte) 0xFF);
 
-        this.channelR = new SpiceEditableGrayScaleImage(width, height, data);
+        this.channelR = new SpiceEditableGrayScale8Image(width, height, data);
         this.channelG = channelR.copyDeeply();
         this.channelB = channelR.copyDeeply();
         this.channelA = channelR.copyDeeply();
     }
 
-    public SpiceEditableCSRGBAImage(int width, int height, int backgroundColor) {
+    public SpiceEditableCSRGBA32Image(@Min(1) int width, @Min(1) int height, int backgroundColor) {
         super(width, height);
-        byte[] datar = new byte[width * height], datag = new byte[width * height], datab = new byte[width * height], dataa = new byte[width * height];
 
-        Arrays.fill(datar, (byte) (backgroundColor >>> 24));
-        this.channelR = new SpiceEditableGrayScaleImage(width, height, datar);
-        Arrays.fill(datag, (byte) (backgroundColor >>> 16));
-        this.channelG = new SpiceEditableGrayScaleImage(width, height, datag);
-        Arrays.fill(datab, (byte) (backgroundColor >>> 8));
-        this.channelB = new SpiceEditableGrayScaleImage(width, height, datab);
-        Arrays.fill(dataa, (byte) backgroundColor);
-        this.channelA = new SpiceEditableGrayScaleImage(width, height, dataa);
+        this.channelR = new SpiceEditableGrayScale8Image(width, height, (byte) (backgroundColor >>> 24));
+        this.channelG = new SpiceEditableGrayScale8Image(width, height, (byte) (backgroundColor >>> 16));
+        this.channelB = new SpiceEditableGrayScale8Image(width, height, (byte) (backgroundColor >>> 8));
+        this.channelA = new SpiceEditableGrayScale8Image(width, height, (byte) backgroundColor);
     }
 
-    public SpiceEditableCSRGBAImage(int width, int height, EditableGrayScaleImage channelR, EditableGrayScaleImage channelG, EditableGrayScaleImage channelB, EditableGrayScaleImage channelA) {
+    public SpiceEditableCSRGBA32Image(@Min(1) int width, @Min(1) int height, EditableGrayScale8Image channelR, EditableGrayScale8Image channelG, EditableGrayScale8Image channelB, EditableGrayScale8Image channelA) {
         super(width, height);
+
         this.channelR = channelR;
         this.channelG = channelG;
         this.channelB = channelB;
@@ -121,8 +130,8 @@ public final class SpiceEditableCSRGBAImage extends SpiceRGBAImage implements Ed
     }
 
     @Override
-    public CachedRGBAImage makeImage() {
-        return new SpiceCachedRGBAImage(width, height, getData());
+    public CachedRGBA32Image makeImage() {
+        return new SpiceCachedRGBA32Image(width, height, getData());
     }
 
     @Override
@@ -172,37 +181,27 @@ public final class SpiceEditableCSRGBAImage extends SpiceRGBAImage implements Ed
     }
 
     @Override
-    public CachedGrayScaleImage extractChannelR() {
+    public CachedGrayScale8Image extractChannelR() {
         return channelR.makeImage();
     }
 
     @Override
-    public CachedGrayScaleImage extractChannelG() {
+    public CachedGrayScale8Image extractChannelG() {
         return channelG.makeImage();
     }
 
     @Override
-    public CachedGrayScaleImage extractChannelB() {
+    public CachedGrayScale8Image extractChannelB() {
         return channelB.makeImage();
     }
 
     @Override
-    public CachedGrayScaleImage extractChannelA() {
+    public CachedGrayScale8Image extractChannelA() {
         return channelA.makeImage();
     }
 
     @Override
-    public CachedRGBImage toRGBImage() {
-        return null;
-    }
-
-    @Override
-    public CachedGrayScaleImage toGrayScaleImage() {
-        return null;
-    }
-
-    @Override
-    public EditableRGBAImage copyDeeply() {
-        return new SpiceEditableCSRGBAImage(width, height, channelR.copyDeeply(), channelG.copyDeeply(), channelB.copyDeeply(), channelA.copyDeeply());
+    public EditableRGBA32Image copyDeeply() {
+        return new SpiceEditableCSRGBA32Image(width, height, channelR.copyDeeply(), channelG.copyDeeply(), channelB.copyDeeply(), channelA.copyDeeply());
     }
 }

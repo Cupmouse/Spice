@@ -11,11 +11,15 @@ public abstract class SpiceImage implements Image {
     public final int width;
     public final int height;
 
+    public SpiceImage(Vector2i vector2i) {
+        this(vector2i.x, vector2i.y);
+    }
+
     public SpiceImage(int width, int height) {
-        this.width = width;
-        this.height = height;
         if (width <= 0 || height <= 0)
             throw new IllegalArgumentException();
+        this.width = width;
+        this.height = height;
     }
 
     protected void validatePosition(int x, int y) {

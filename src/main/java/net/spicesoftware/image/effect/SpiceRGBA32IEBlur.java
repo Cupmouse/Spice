@@ -1,13 +1,16 @@
 package net.spicesoftware.image.effect;
 
-import net.spicesoftware.api.image.effect.GSImageEffect;
-import net.spicesoftware.api.image.effect.RGBAImageEffect;
-import net.spicesoftware.api.image.effect.RGBImageEffect;
+import net.spicesoftware.api.image.CachedImage;
+import net.spicesoftware.api.image.effect.ImageEffect;
+import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
+import net.spicesoftware.api.image.rgba.RGBA32Image;
+import net.spicesoftware.api.util.vector.Vector2i;
+import net.spicesoftware.image.rgba.SpiceCachedRGBA32Image;
 
 /**
  * @since 2015/04/22
  */
-public class SpiceRGBAIEBlur implements GSImageEffect, RGBImageEffect, RGBAImageEffect {
+public class SpiceRGBA32IEBlur implements ImageEffect<CachedRGBA32Image> {
 
     // root(2^32)=4096ピクセルまで。
     private int constant;
@@ -74,8 +77,61 @@ public class SpiceRGBAIEBlur implements GSImageEffect, RGBImageEffect, RGBAImage
         return applied;
     }
 
+    public int getConstant() {
+        return constant;
+    }
+
+    public void setConstant(int constant) throws IllegalArgumentException {
+        if (constant < 0 || constant > 4096) {
+            throw new IllegalArgumentException();
+        }
+        this.constant = constant;
+    }
+
+    public byte[] applyGS(int width, int height, byte[] data) {
+        if (width <= 0 || height <= 0)
+            throw new IllegalArgumentException();
+        if (width * height != data.length)
+            throw new IllegalArgumentException();
+
+        byte[] applied = new byte[width * height];
+
+        for (int pos = 0; pos < data.length; pos++) {
+            int absolutePosX = pos % width;
+            int absolutePosY = pos / width;
+
+            int startX = absolutePosX < constant ? 0 : absolutePosX - constant;
+            int endX = absolutePosX + constant;
+            int startY = absolutePosY < constant ? 0 : absolutePosY - constant;
+            int endY = absolutePosY + constant;
+
+            if (endX >= width) {
+                endX = width - 1;
+            }
+            if (endY >= height) {
+                endY = height - 1;
+            }
+
+            int pixelResult = 0;
+
+            for (int x = startX; x <= endX; x++) {
+                for (int y = startY; y < endY; y++) {
+                    pixelResult += data[width * y + x] & 0xFF;
+                }
+            }
+
+            applied[pos] = (byte) (pixelResult / ((endX - startX + 1) * (endY - startY + 1)));
+        }
+
+        return applied;
+    }
+
     @Override
-    public int[] applyRGBA(int width, int height, int[] data) {
+    public CachedRGBA32Image apply(CachedRGBA32Image image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        int[] data = image.getData();
         int[] applied = new int[width * height];
 
         for (int i = 0; i < data.length; i++) {
@@ -119,61 +175,6 @@ public class SpiceRGBAIEBlur implements GSImageEffect, RGBImageEffect, RGBAImage
             applied[i] = (pixelResultR / pixels) << 24 | (pixelResultG / pixels) << 16 | (pixelResultB / pixels) << 8 | (pixelResultA / pixels);
         }
 
-        return applied;
-    }
-
-    public int getConstant() {
-        return constant;
-    }
-
-    public void setConstant(int constant) throws IllegalArgumentException {
-        if (constant < 0 || constant > 4096) {
-            throw new IllegalArgumentException();
-        }
-        this.constant = constant;
-    }
-
-    @Override
-    public byte[] applyGS(int width, int height, byte[] data) {
-        if (width <= 0 || height <= 0)
-            throw new IllegalArgumentException();
-        if (width * height != data.length)
-            throw new IllegalArgumentException();
-
-        byte[] applied = new byte[width * height];
-
-        for (int pos = 0; pos < data.length; pos++) {
-            int absolutePosX = pos % width;
-            int absolutePosY = pos / width;
-
-            int startX = absolutePosX < constant ? 0 : absolutePosX - constant;
-            int endX = absolutePosX + constant;
-            int startY = absolutePosY < constant ? 0 : absolutePosY - constant;
-            int endY = absolutePosY + constant;
-
-            if (endX >= width) {
-                endX = width - 1;
-            }
-            if (endY >= height) {
-                endY = height - 1;
-            }
-
-            int pixelResult = 0;
-
-            for (int x = startX; x <= endX; x++) {
-                for (int y = startY; y < endY; y++) {
-                    pixelResult += data[width * y + x] & 0xFF;
-                }
-            }
-
-            applied[pos] = (byte) (pixelResult / ((endX - startX + 1) * (endY - startY + 1)));
-        }
-
-        return applied;
-    }
-
-    @Override
-    public int[] applyRGB(int width, int height, int[] data) {
-        return new int[0];
+        return new SpiceCachedRGBA32Image(width, height, applied);
     }
 }

@@ -1,29 +1,44 @@
 package net.spicesoftware.image.rgb;
 
-import net.spicesoftware.api.image.gs.CachedGrayScaleImage;
-import net.spicesoftware.api.image.rgba.CachedRGBAImage;
+import net.spicesoftware.api.image.gs.CachedGrayScale8Image;
+import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
 import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
 import net.spicesoftware.api.util.vector.Vector2i;
-import net.spicesoftware.image.gs.SpiceCachedGrayScaleImage;
+import net.spicesoftware.image.gs.SpiceCachedGrayScale8Image;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.Arrays;
 
 /**
  * @since 2015/03/19
  */
-public abstract class SpiceRGBIntImage extends SpiceRGBImage {
+public abstract class SpiceRGBInt24Image extends SpiceRGB24Image {
 
     protected final int[] data;
 
-    public SpiceRGBIntImage(@Min(0) int width, @Min(0) int height) {
+    public SpiceRGBInt24Image(Vector2i vector2i) {
+        this(vector2i.x, vector2i.y);
+    }
+
+    public SpiceRGBInt24Image(Vector2i vector2i, @Min(0) @Max(0xFFFFFF) int backgroundColor) {
+        this(vector2i.x, vector2i.y, backgroundColor);
+    }
+
+    public SpiceRGBInt24Image(Vector2i vector2i, @Size(min = 1) int[] data) {
+        this(vector2i.x, vector2i.y, data);
+    }
+
+    public SpiceRGBInt24Image(@Min(0) int width, @Min(0) int height) {
         super(width, height);
+
         this.data = new int[width * height];
     }
 
-    public SpiceRGBIntImage(@Min(0) int width, @Min(0) int height, @Min(0) @Max(0xFFFFFF) int backgroundColor) {
+    public SpiceRGBInt24Image(@Min(0) int width, @Min(0) int height, @Min(0) @Max(0xFFFFFF) int backgroundColor) {
         super(width, height);
+
         if (backgroundColor < 0 || backgroundColor > 0xFFFFFF)
             throw new IllegalArgumentException();
 
@@ -32,8 +47,9 @@ public abstract class SpiceRGBIntImage extends SpiceRGBImage {
         Arrays.fill(data, backgroundColor);
     }
 
-    public SpiceRGBIntImage(@Min(0) int width, @Min(0) int height, int[] data) {
+    public SpiceRGBInt24Image(@Min(0) int width, @Min(0) int height, @Size(min = 1) int[] data) {
         super(width, height);
+
         if (data.length != width * height)
             throw new IllegalArgumentException();
 
@@ -75,36 +91,26 @@ public abstract class SpiceRGBIntImage extends SpiceRGBImage {
     }
 
     @Override
-    public final CachedGrayScaleImage extractChannelR() {
+    public final CachedGrayScale8Image extractChannelR() {
         byte[] gsdata = new byte[data.length];
         for (int i = 0; i < data.length; i++)
             gsdata[i] = (byte) (data[i] >>> 16);
-        return new SpiceCachedGrayScaleImage(width, height, gsdata);
+        return new SpiceCachedGrayScale8Image(width, height, gsdata);
     }
 
     @Override
-    public final CachedGrayScaleImage extractChannelG() {
+    public final CachedGrayScale8Image extractChannelG() {
         byte[] gsdata = new byte[data.length];
         for (int i = 0; i < data.length; i++)
             gsdata[i] = (byte) (data[i] >>> 8);
-        return new SpiceCachedGrayScaleImage(width, height, gsdata);
+        return new SpiceCachedGrayScale8Image(width, height, gsdata);
     }
 
     @Override
-    public final CachedGrayScaleImage extractChannelB() {
+    public final CachedGrayScale8Image extractChannelB() {
         byte[] gsdata = new byte[data.length];
         for (int i = 0; i < data.length; i++)
             gsdata[i] = (byte) (data[i]);
-        return new SpiceCachedGrayScaleImage(width, height, gsdata);
-    }
-
-    @Override
-    public final CachedRGBAImage toRGBAImage() {
-        return null;
-    }
-
-    @Override
-    public final CachedGrayScaleImage toGrayScaleImage() {
-        return null;
+        return new SpiceCachedGrayScale8Image(width, height, gsdata);
     }
 }

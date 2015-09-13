@@ -1,8 +1,8 @@
-import net.spicesoftware.api.image.blender.RGBAImageBlender;
+import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
 import net.spicesoftware.api.util.Pair;
 import net.spicesoftware.image.blender.SpiceRGBALightenImageBlender;
-import net.spicesoftware.image.rgba.SpiceCachedRGBAImage;
-import net.spicesoftware.image.rgba.SpiceEditableRGBAImage;
+import net.spicesoftware.image.rgba.SpiceCachedRGBA32Image;
+import net.spicesoftware.image.rgba.SpiceEditableRGBA32Image;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,19 +20,19 @@ import java.io.IOException;
 public class BlendingTest extends JFrame {
 
     private static BlendingTest frame;
-    private static SpiceEditableRGBAImage i1;
-    private static SpiceCachedRGBAImage i2;
-    private static SpiceCachedRGBAImage i3;
-    private static SpiceCachedRGBAImage ir;
-    private static SpiceCachedRGBAImage i4;
+    private static SpiceEditableRGBA32Image i1;
+    private static SpiceCachedRGBA32Image i2;
+    private static SpiceCachedRGBA32Image i3;
+    private static CachedRGBA32Image ir;
+    private static SpiceCachedRGBA32Image i4;
 
     public static void main(String[] args) {
         i1 = load(new File("src/test/resource/test1a.png"));
 
-//        i1 = new SpiceEditableRGBAImage(1920, 1080, (int) 0xff00007FL);
-        i2 = new SpiceCachedRGBAImage(i1.width, i1.height, (int) (0x00ff00ffL));
-        i3 = new SpiceCachedRGBAImage(i1.width, i1.height, (int) (0x807f00ffL));
-        i4 = new SpiceCachedRGBAImage(i1.width, i1.height, (int) (0xffffffffL));
+//        i1 = new SpiceEditableRGBA32Image(1920, 1080, (int) 0xff00007FL);
+        i2 = new SpiceCachedRGBA32Image(i1.width, i1.height, (int) (0x00ff00ffL));
+        i3 = new SpiceCachedRGBA32Image(i1.width, i1.height, (int) (0x807f00ffL));
+        i4 = new SpiceCachedRGBA32Image(i1.width, i1.height, (int) (0xffffffffL));
 
 //        try {
 //            Thread.sleep(5000);
@@ -41,9 +41,9 @@ public class BlendingTest extends JFrame {
 //        }
 
         long starts = System.currentTimeMillis();
-        RGBAImageBlender rgbaImageBlender = new SpiceRGBALightenImageBlender();
+        SpiceRGBALightenImageBlender rgbaImageBlender = new SpiceRGBALightenImageBlender();
 //        IntStream.range(0, 60).forEach(i -> ir = rgbaImageBlender.blendData(Pair.of(i1.getData(), 1000), Pair.of(i3.getData(), 1000)));
-        ir = new SpiceCachedRGBAImage(i1.getWidth(), i1.getHeight(), rgbaImageBlender.blendData(Pair.of(i1.getData(), 500), Pair.of(i3.getData(), 1000)));
+        ir = rgbaImageBlender.blendImage(Pair.of(i1, 500), Pair.of(i3, 1000));
         System.out.println(System.currentTimeMillis() - starts);
 
         frame = new BlendingTest();
@@ -52,7 +52,7 @@ public class BlendingTest extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == 3) {
-                    ir = new SpiceCachedRGBAImage(i1.getWidth(), i1.getHeight(), rgbaImageBlender.blendData(Pair.of(i1.getData(), e.getX()), Pair.of(i3.getData(), 1000)));
+                    ir = rgbaImageBlender.blendImage(Pair.of(i1, e.getX()), Pair.of(i3, 1000));
                     System.out.println("recalculated");
                 } else {
                     System.out.println(i1.getColorAt(e.getX(), e.getY()));
@@ -65,7 +65,7 @@ public class BlendingTest extends JFrame {
         frame.pack();
     }
 
-    private static SpiceEditableRGBAImage load(File file) {
+    private static SpiceEditableRGBA32Image load(File file) {
         BufferedImage bi = null;
         try {
             bi = ImageIO.read(new FileInputStream(file));
@@ -80,7 +80,7 @@ public class BlendingTest extends JFrame {
             }
         }
 
-        return new SpiceEditableRGBAImage(bi.getWidth(), bi.getHeight(), data1);
+        return new SpiceEditableRGBA32Image(bi.getWidth(), bi.getHeight(), data1);
     }
 
     private void drawPoint(Graphics graphics, int color, int x, int y) {

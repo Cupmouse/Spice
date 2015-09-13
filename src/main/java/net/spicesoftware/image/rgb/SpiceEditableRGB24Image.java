@@ -1,27 +1,40 @@
 package net.spicesoftware.image.rgb;
 
-import net.spicesoftware.api.image.rgb.CachedRGBImage;
-import net.spicesoftware.api.image.rgb.EditableRGBImage;
+import net.spicesoftware.api.image.rgb.CachedRGB24Image;
+import net.spicesoftware.api.image.rgb.EditableRGB24Image;
 import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 /**
  * @since 2015/03/19
  */
-public final class SpiceEditableRGBImage extends SpiceRGBIntImage implements EditableRGBImage {
+public final class SpiceEditableRGB24Image extends SpiceRGBInt24Image implements EditableRGB24Image {
 
-    public SpiceEditableRGBImage(int width, int height) {
+    public SpiceEditableRGB24Image(Vector2i vector2i) {
+        super(vector2i);
+    }
+
+    public SpiceEditableRGB24Image(Vector2i vector2i, @Min(0) @Max(0xFFFFFF) int backgroundColor) {
+        super(vector2i, backgroundColor);
+    }
+
+    public SpiceEditableRGB24Image(Vector2i vector2i, @Size(min = 1) int[] data) {
+        super(vector2i, data);
+    }
+
+    public SpiceEditableRGB24Image(@Min(1) int width, @Min(1) int height) {
         super(width, height);
     }
 
-    public SpiceEditableRGBImage(int width, int height, int backgroundColor) {
+    public SpiceEditableRGB24Image(@Min(1) int width, @Min(1) int height, @Min(0) @Max(0xFFFFFF) int backgroundColor) {
         super(width, height, backgroundColor);
     }
 
-    public SpiceEditableRGBImage(int width, int height, int[] data) {
+    public SpiceEditableRGB24Image(@Min(1) int width, @Min(1) int height, @Size(min = 1) int[] data) {
         super(width, height, data);
     }
 
@@ -51,12 +64,12 @@ public final class SpiceEditableRGBImage extends SpiceRGBIntImage implements Edi
     }
 
     @Override
-    public CachedRGBImage makeImage() {
-        return new SpiceCachedRGBImage(width, height, data);
+    public CachedRGB24Image makeImage() {
+        return new SpiceCachedRGB24Image(width, height, data);
     }
 
     @Override
-    public SpiceEditableRGBImage copyDeeply() {
-        return new SpiceEditableRGBImage(width, height, data);
+    public SpiceEditableRGB24Image copyDeeply() {
+        return new SpiceEditableRGB24Image(width, height, data);
     }
 }

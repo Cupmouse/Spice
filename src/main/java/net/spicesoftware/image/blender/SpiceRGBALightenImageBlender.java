@@ -1,30 +1,50 @@
 package net.spicesoftware.image.blender;
 
+import net.spicesoftware.api.image.blender.property.IBPropertyOpacity;
+import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
 import net.spicesoftware.api.util.Pair;
+import net.spicesoftware.api.util.vector.Vector2i;
+import net.spicesoftware.image.rgba.SpiceCachedRGBA32Image;
+import net.spicesoftware.image.rgba.SpiceRGBA32Image;
 
 import javax.validation.constraints.Size;
 
 /**
  * @since 2015/03/31
  */
-public class SpiceRGBALightenImageBlender extends SpiceRGBAImageBlender {
+public class SpiceRGBALightenImageBlender extends SpiceRGBAImageBlender<CachedRGBA32Image, IBPropertyOpacity> {
 
     @Override
-    public void blendData(int[] result, @Size(min = 2) Pair<int[], Integer>... images) {
-        super.blendData(result, images);
+    public CachedRGBA32Image blendImage(@Size(min = 2) Pair<CachedRGBA32Image, IBPropertyOpacity>... images) {
+        checkParam(images);
 
-        int length = images[0].a.length;
+        int width = images[0].a.getWidth();
+        int height = images[0].a.getHeight();
+
+        int length = width * height;
         int noimages = images.length;
+
+
+        // 事前コピー
+        int[][] imagesData = new int[noimages][];
+
+        for (int i = 0; i < images.length; i++) {
+            imagesData[i] = images[i].a.getData();
+        }
+
+        int[] result = new int[length];
+
         int firgba, r, g, b, a, rgba, rf, gf, bf, af;
         int rs, gs, bs, as, ar, ad, t;
 
-        // RGBAのアルファブレンディングとほとんど同じ
         for (int pos = 0; pos < length; pos++) {
             rs = gs = bs = as = 0;
 
             for (int i = 0; i < noimages; i++) {
-                rgba = images[i].a[pos];
-                ad = ((rgba & 0xFF) * images[i].b) / 1000;
+                int[] data = imagesData[i];
+
+                rgba = data[pos];
+                ad = ((rgba & 0xFF) * images[i].b.getOpacity()) / 1000;
 
                 if (ad != 0) {
                     ar = as + ((0xFF - as) * ad) / 0xFF;
@@ -42,6 +62,7 @@ public class SpiceRGBALightenImageBlender extends SpiceRGBAImageBlender {
             result[pos] = rs << 24 | gs << 16 | bs << 8 | as;
         }
 
+        return new SpiceCachedRGBA32Image(width, height, result);
 
         // 透明度なし
 //        for (int pos = 0; pos < length; pos++) {

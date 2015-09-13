@@ -4,17 +4,18 @@ import net.spicesoftware.api.image.CachedImage;
 import net.spicesoftware.api.image.Image;
 import net.spicesoftware.api.image.ImageConverter;
 import net.spicesoftware.api.image.blender.ImageBlender;
+import net.spicesoftware.api.image.blender.property.IBPropertyDither;
+import net.spicesoftware.api.image.blender.property.IBPropertyOpacity;
 import net.spicesoftware.api.image.blender.property.ImageBlenderProperty;
+import net.spicesoftware.api.image.blender.property.builder.ImageBlenderPropertyBuilder;
 import net.spicesoftware.api.image.gs.EditableGrayScale8Image;
 import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
 import net.spicesoftware.api.image.rgba.EditableRGBA32Image;
 import net.spicesoftware.api.registry.Registry;
 import net.spicesoftware.api.render.Renderable;
 import net.spicesoftware.api.render.Renderer;
-import net.spicesoftware.api.resource.builder.ResourceImageBuilder;
-import net.spicesoftware.api.resource.builder.ResourceShapeBuilder;
-import net.spicesoftware.api.resource.builder.ResourceSoundBuilder;
-import net.spicesoftware.api.resource.builder.ResourceVideoBuilder;
+import net.spicesoftware.api.resource.Resource;
+import net.spicesoftware.api.resource.builder.*;
 import net.spicesoftware.api.util.AlreadyRegisteredInRegistryException;
 import net.spicesoftware.api.util.NotRegisteredInRegistryException;
 import net.spicesoftware.api.util.Pair;
@@ -23,6 +24,8 @@ import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
 import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
 import net.spicesoftware.api.util.vector.Vector2i;
 import net.spicesoftware.api.value.Interpolator;
+import net.spicesoftware.image.blender.property.SpiceIBPropertyDither;
+import net.spicesoftware.image.blender.property.SpiceIBPropertyOpacity;
 import net.spicesoftware.image.gs.SpiceCachedGrayScale8Image;
 import net.spicesoftware.image.gs.SpiceEditableGrayScale8Image;
 import net.spicesoftware.image.rgb.SpiceCachedRGB24Image;
@@ -32,10 +35,14 @@ import net.spicesoftware.image.rgba.SpiceCachedRGBA32Image;
 import net.spicesoftware.image.rgba.SpiceEditableCSRGBA32Image;
 import net.spicesoftware.image.rgba.SpiceEditableRGBA32Image;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * @since 2015/03/19
@@ -45,6 +52,38 @@ public class SpiceRegistry implements Registry {
     private final Map<Class, Map<String, Interpolator>> interpolators = new HashMap<>();
     private final Map<Pair<Class<? extends CachedImage>, Class<? extends ImageBlenderProperty>>, Map<String, ImageBlender>> imageBlenders = new HashMap<>();
     private final Map<Pair<Class, Class>, Map<String, ImageConverter>> imageConverters = new HashMap<>();
+    private final Map<Class<? extends Resource>, Supplier<? extends ResourceBuilder>> resourceBuilders = new HashMap<>();
+    private Map<Class<? extends ImageBlenderProperty>, Supplier<? extends ImageBlenderPropertyBuilder>> imageBlenderPropertyBuilders;
+//    private final Map<Pair<Class, Class>, Map<String, ImageConverter>> imageConverters = new HashMap<>();
+
+    @Override
+    public <T extends Resource> ResourceBuilder<T> getResourceBuilderOf(Class<T> clazz) {
+        return ((Supplier<ResourceBuilder<T>>) resourceBuilders.get(clazz)).get();
+    }
+
+    @Override
+    public <T extends Resource> void registerResourceBuilder(Class<T> clazz, Supplier<ResourceBuilder<T>> builderSupplier) throws AlreadyRegisteredInRegistryException {
+        if (resourceBuilders.containsKey(clazz)) {
+            throw new AlreadyRegisteredInRegistryException();
+        }
+
+        resourceBuilders.put(clazz, builderSupplier);
+    }
+
+    @Override
+    public <T extends ImageBlenderProperty> ImageBlenderPropertyBuilder<T> getImageBlenderPropertyBuilderOf(Class<T> clazz) {
+        return ((Supplier<ImageBlenderPropertyBuilder<T>>) imageBlenderPropertyBuilders.get(clazz)).get();
+    }
+
+    @Override
+    public IBPropertyOpacity createIBPropertyOpacity(@Min(0) @Max(1000) int opacity) {
+        return new SpiceIBPropertyOpacity(opacity);
+    }
+
+    @Override
+    public IBPropertyDither createIBPropertyDither(@Min(0) @Max(1000) int opacity, int seed) {
+        return new SpiceIBPropertyDither(opacity, seed);
+    }
 
     @Override
     public SpiceCachedGrayScale8Image createCachedGrayScaleImage(int width, int height, byte[] image) throws IllegalArgumentException {
@@ -204,30 +243,6 @@ public class SpiceRegistry implements Registry {
     @Override
     public EditableRGBA32Image createNewCSRGBAImage(Vector2i size, EditableGrayScale8Image channelR, EditableGrayScale8Image channelG, EditableGrayScale8Image channelB, EditableGrayScale8Image channelA) {
         return new SpiceEditableCSRGBA32Image(size.x, size.y, channelR, channelG, channelB, channelA);
-    }
-
-    @Override
-    public ResourceImageBuilder getResourceImageBuilder() {
-        // TODO
-        return null;
-    }
-
-    @Override
-    public ResourceShapeBuilder getResourceShapeBuilder() {
-        // TODO
-        return null;
-    }
-
-    @Override
-    public ResourceSoundBuilder getResourceSoundBuilder() {
-        // TODO
-        return null;
-    }
-
-    @Override
-    public ResourceVideoBuilder getResourceVideoBuilder() {
-        // TODO
-        return null;
     }
 
     @Override

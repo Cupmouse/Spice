@@ -1,7 +1,6 @@
 package net.spicesoftware.image.blender;
 
-import net.spicesoftware.api.image.blender.ImageBlender;
-import net.spicesoftware.api.image.blender.property.IBPropertyDitherRGBA32;
+import net.spicesoftware.api.image.blender.property.IBPropertyDither;
 import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
 import net.spicesoftware.api.util.Pair;
 import net.spicesoftware.api.util.vector.Vector2i;
@@ -13,10 +12,10 @@ import java.util.Random;
 /**
  * @since 2015/03/31
  */
-public class SpiceRGBA32DitherImageBlender extends SpiceRGBAImageBlender<CachedRGBA32Image, IBPropertyDitherRGBA32> {
+public class SpiceRGBA32DitherImageBlender extends SpiceRGBAImageBlender<CachedRGBA32Image, IBPropertyDither> {
 
     @Override
-    public CachedRGBA32Image blendImage(@Size(min = 2) Pair<CachedRGBA32Image, IBPropertyDitherRGBA32>... images) {
+    public CachedRGBA32Image blendImage(@Size(min = 2) Pair<CachedRGBA32Image, IBPropertyDither>... images) {
         Vector2i size = images[0].a.getSize();
 
         int rgba, a, rnd;

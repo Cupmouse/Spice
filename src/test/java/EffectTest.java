@@ -22,6 +22,7 @@ import java.util.stream.IntStream;
 /**
  * @since 2015/03/25
  */
+// TODO
 public class EffectTest extends JFrame {
 
     private static EffectTest frame;
@@ -32,7 +33,7 @@ public class EffectTest extends JFrame {
     private static SpiceCachedRGBA32Image i4;
 
     public static void main(String[] args) {
-        i1 = load(new File("src/test/resource/test1a.png"));
+        i1 = load(new File("src/test/resource/test2a.png"));
 
         System.out.println(i1.width + " : " + i1.height);
 

@@ -1,31 +1,45 @@
 package net.spicesoftware.image.blender;
 
+import net.spicesoftware.api.image.blender.property.IBPropertyOpacity;
+import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
 import net.spicesoftware.api.util.Pair;
+import net.spicesoftware.image.rgba.SpiceCachedRGBA32Image;
 
 import javax.validation.constraints.Size;
 
 /**
  * @since 2015/03/24
  */
-public final class SpiceRGBANormalImageBlender extends SpiceRGBAImageBlender {
+public final class SpiceRGBANormalImageBlender extends SpiceRGBAImageBlender<CachedRGBA32Image, IBPropertyOpacity> {
 
     @Override
-    public void blendData(int[] result, @Size(min = 2) Pair<int[], Integer>... images) {
-        super.blendData(result, images);
+    public CachedRGBA32Image blendImage(@Size(min = 2) Pair<CachedRGBA32Image, IBPropertyOpacity>... images) {
+        checkParam(images);
 
         // 1ピクセルごとに計算していく
 
+
+        int width = images[0].a.getWidth();
+        int height = images[0].a.getHeight();
+
+        int length = width * height;
+        int noimages = images.length;
+
+        int[][] imagesData = new int[noimages][];
+        int[] result = new int[length];
         int rs, gs, bs, as, rgba, ar, ad, t;
 
-        int length = images[0].a.length;
-        int noimages = images.length;
+        // メソッドを毎回呼ぶとオーバーヘッドが発生するので配列に入れておく
+        for (int i = 0; i < images.length; i++) {
+            imagesData[i] = images[i].a.getData();
+        }
 
         for (int pos = 0; pos < length; pos++) {
             rs = gs = bs = as = 0;
 
             for (int i = 0; i < noimages; i++) {
-                rgba = images[i].a[pos];
-                ad = ((rgba & 0xFF) * images[i].b) / 1000;
+                rgba = imagesData[i][pos];
+                ad = ((rgba & 0xFF) * images[i].b.getOpacity()) / 1000;
 
                 if (ad != 0) {
                     // 不透明度を計算する
@@ -48,5 +62,6 @@ public final class SpiceRGBANormalImageBlender extends SpiceRGBAImageBlender {
             }
             result[pos] = rs << 24 | gs << 16 | bs << 8 | as;
         }
+        return new SpiceCachedRGBA32Image(width, height, result);
     }
 }

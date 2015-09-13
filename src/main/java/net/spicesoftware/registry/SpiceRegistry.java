@@ -46,11 +46,6 @@ public class SpiceRegistry implements Registry {
     private final Map<Pair<Class, Class>, Map<String, ImageConverter>> imageConverters = new HashMap<>();
 
     @Override
-    public <T extends Image> void addImage(Class<T> image) {
-
-    }
-
-    @Override
     public SpiceCachedGrayScaleImage createCachedGrayScaleImage(int width, int height, byte[] image) throws IllegalArgumentException {
         return new SpiceCachedGrayScaleImage(width, height, image);
     }
@@ -132,12 +127,12 @@ public class SpiceRegistry implements Registry {
 
     @Override
     public SpiceEditableRGBImage createNewRGBImage(int width, int height, RGB24Color backgroundColor) throws IllegalArgumentException {
-        return new SpiceEditableRGBImage(width, height, backgroundColor.getIntValue());
+        return new SpiceEditableRGBImage(width, height, backgroundColor.toRGB24Int());
     }
 
     @Override
     public SpiceEditableRGBImage createNewRGBImage(Vector2i size, RGB24Color backgroundColor) {
-        return new SpiceEditableRGBImage(size.x, size.y, backgroundColor.getIntValue());
+        return new SpiceEditableRGBImage(size.x, size.y, backgroundColor.toRGB24Int());
     }
 
     @Override
@@ -192,12 +187,12 @@ public class SpiceRegistry implements Registry {
 
     @Override
     public EditableRGBAImage createNewRGBAImage(int width, int height, RGBA32Color backgroundColor) throws IllegalArgumentException {
-        return new SpiceEditableRGBAImage(width, height, backgroundColor.getIntValue());
+        return new SpiceEditableRGBAImage(width, height, backgroundColor.toRGBA32Int());
     }
 
     @Override
     public EditableRGBAImage createNewRGBAImage(Vector2i size, RGBA32Color backgroundColor) {
-        return new SpiceEditableRGBAImage(size.x, size.y, backgroundColor.getIntValue());
+        return new SpiceEditableRGBAImage(size.x, size.y, backgroundColor.toRGBA32Int());
     }
 
     @Override

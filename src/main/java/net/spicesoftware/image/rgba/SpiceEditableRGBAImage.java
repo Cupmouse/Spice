@@ -69,7 +69,7 @@ public final class SpiceEditableRGBAImage extends SpiceRGBAIntImage implements E
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, RGBA32Color color) {
         validatePosition(x, y);
-        this.data[width * y + x] = color.getIntValue();
+        this.data[width * y + x] = color.toRGBA32Int();
     }
 
     @Override

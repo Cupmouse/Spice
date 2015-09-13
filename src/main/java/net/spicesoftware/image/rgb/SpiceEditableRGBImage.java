@@ -42,7 +42,7 @@ public final class SpiceEditableRGBImage extends SpiceRGBIntImage implements Edi
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, RGB24Color color) {
         validatePosition(x, y);
-        this.data[width * y + x] = color.getIntValue();
+        this.data[width * y + x] = color.toRGB24Int();
     }
 
     @Override

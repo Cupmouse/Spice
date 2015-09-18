@@ -358,15 +358,15 @@ public class SpiceDialogRGB24ColorPicker extends javax.swing.JDialog implements 
     }//GEN-LAST:event_colorPreviewMouseClicked
 
     private void radioButtonHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonHActionPerformed
-        colorSelector.setLockedElement(RGB24ColorSelector.LockedElement.H);
+//        colorSelector.setLockedElement(RGB24ColorSelector.LockedElement.H);
     }//GEN-LAST:event_radioButtonHActionPerformed
 
     private void radioButtonSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonSActionPerformed
-        colorSelector.setLockedElement(RGB24ColorSelector.LockedElement.S);
+//        colorSelector.setLockedElement(RGB24ColorSelector.LockedElement.S);
     }//GEN-LAST:event_radioButtonSActionPerformed
 
     private void radioButtonVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonVActionPerformed
-        colorSelector.setLockedElement(RGB24ColorSelector.LockedElement.V);
+//        colorSelector.setLockedElement(RGB24ColorSelector.LockedElement.V);
     }//GEN-LAST:event_radioButtonVActionPerformed
 
     @Override

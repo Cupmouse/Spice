@@ -1,16 +1,20 @@
 package net.spicesoftware.gui.common.spinner;
 
 import net.spicesoftware.api.gui.common.spinner.IntSpinner;
+import net.spicesoftware.api.util.Validate;
 import net.spicesoftware.api.util.gui.GUIUtil;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
+import static net.spicesoftware.api.util.Validate.*;
+import static net.spicesoftware.api.util.Validate.nullNot;
+
 /**
  * @since 2015/07/04
  */
-public class SpiceIntSpinner extends SpiceSpinner implements IntSpinner {
+public class SpiceIntSpinner extends SpiceSpinner<Integer> implements IntSpinner {
 
     private int draggingStartValue;
     private int maxValue = Integer.MAX_VALUE;
@@ -92,12 +96,14 @@ public class SpiceIntSpinner extends SpiceSpinner implements IntSpinner {
     }
 
     @Override
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 
     @Override
-    public void setValue(int value) {
+    public void setValue(Integer value) {
+        nullNot(value);
+
         if (value > maxValue) {
             this.value = maxValue;
         } else if (value < minValue) {
@@ -110,15 +116,15 @@ public class SpiceIntSpinner extends SpiceSpinner implements IntSpinner {
     }
 
     @Override
-    public int getMaxValue() {
+    public Integer getMaxValue() {
         return maxValue;
     }
 
     @Override
-    public void setMaxValue(int maxValue) {
-        if (maxValue < minValue) {
-            throw new IllegalArgumentException();
-        }
+    public void setMaxValue(Integer maxValue) {
+        nullNot(maxValue);
+        smaller(minValue, maxValue);
+
         this.maxValue = maxValue;
         if (value > maxValue) {
             setValue(maxValue);
@@ -131,12 +137,12 @@ public class SpiceIntSpinner extends SpiceSpinner implements IntSpinner {
     }
 
     @Override
-    public int getMinValue() {
+    public Integer getMinValue() {
         return minValue;
     }
 
     @Override
-    public void setMinValue(int minValue) {
+    public void setMinValue(Integer minValue) {
         if (minValue > maxValue) {
             throw new IllegalArgumentException();
         }

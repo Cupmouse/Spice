@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * @since 2015/07/04
  */
-public abstract class SpiceSpinner extends javax.swing.JPanel implements Spinner {
+public abstract class SpiceSpinner<T extends Number> extends javax.swing.JPanel implements Spinner<T> {
 
     private static final Border DEFAULT_BORDER = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY);
     //    private static final Border FOCUS_BORDER = BorderFactory.createDashedBorder(Color.GRAY, 2, 2);

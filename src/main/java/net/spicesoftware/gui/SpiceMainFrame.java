@@ -8,6 +8,7 @@ import javax.swing.*;
  */
 public class SpiceMainFrame extends JFrame {
 
+    private ImageIcon windowIcon;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSplitPane jSplitPane1;
@@ -22,6 +23,7 @@ public class SpiceMainFrame extends JFrame {
     // End of variables declaration//GEN-END:variables
 
     public SpiceMainFrame() {
+        windowIcon = new ImageIcon(ClassLoader.getSystemResource("windowIcons/spiceIcon16.png"));
         initComponents();
     }
 
@@ -71,6 +73,7 @@ public class SpiceMainFrame extends JFrame {
         panelTimeline = new net.spicesoftware.gui.timeline.SpicePanelTimeline();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(windowIcon.getImage());
         getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
 
         jSplitPane1.setDividerLocation(200);

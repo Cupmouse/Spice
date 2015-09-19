@@ -56,9 +56,12 @@ public class SpiceRegistry implements Registry {
     private Map<Class<? extends ImageBlenderProperty>, Supplier<? extends ImageBlenderPropertyBuilder>> imageBlenderPropertyBuilders;
 //    private final Map<Pair<Class, Class>, Map<String, ImageConverter>> imageConverters = new HashMap<>();
 
-    @Override
-    public <T extends Resource> ResourceBuilder<T> getResourceBuilderOf(Class<T> clazz) {
-        return ((Supplier<ResourceBuilder<T>>) resourceBuilders.get(clazz)).get();
+    public <T extends Resource> Optional<ResourceBuilder<T>> getResourceBuilderOf(Class<T> clazz) {
+        Supplier<? extends ResourceBuilder> supplier = resourceBuilders.get(clazz);
+        if (supplier == null) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(((Supplier<ResourceBuilder<T>>) supplier).get());
     }
 
     @Override
@@ -70,9 +73,12 @@ public class SpiceRegistry implements Registry {
         resourceBuilders.put(clazz, builderSupplier);
     }
 
-    @Override
-    public <T extends ImageBlenderProperty> ImageBlenderPropertyBuilder<T> getImageBlenderPropertyBuilderOf(Class<T> clazz) {
-        return ((Supplier<ImageBlenderPropertyBuilder<T>>) imageBlenderPropertyBuilders.get(clazz)).get();
+    public <T extends ImageBlenderProperty> Optional<ImageBlenderPropertyBuilder<T>> getImageBlenderPropertyBuilderOf(Class<T> clazz) {
+        Supplier<? extends ImageBlenderPropertyBuilder> supplier = imageBlenderPropertyBuilders.get(clazz);
+        if (supplier == null) {
+            return Optional.empty();
+        }
+        return Optional.of(((Supplier<ImageBlenderPropertyBuilder<T>>) supplier).get());
     }
 
     @Override

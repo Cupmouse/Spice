@@ -62,7 +62,7 @@ public class SpiceRegistry implements Registry {
         if (supplier == null) {
             return Optional.empty();
         }
-        return Optional.ofNullable( ((Supplier<ResourceBuilder<T>>) supplier).get() );
+        return Optional.ofNullable(((Supplier<ResourceBuilder<T>>) supplier).get());
     }
 
     @Override
@@ -80,7 +80,7 @@ public class SpiceRegistry implements Registry {
         if (supplier == null) {
             return Optional.empty();
         }
-        return Optional.of( ((Supplier<ImageBlenderPropertyBuilder<T>>) supplier).get() );
+        return Optional.of(((Supplier<ImageBlenderPropertyBuilder<T>>) supplier).get());
     }
 
     @Override

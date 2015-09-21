@@ -3,6 +3,7 @@ package net.spicesoftware;
 import net.spicesoftware.api.Box;
 import net.spicesoftware.api.layer.Layer;
 import net.spicesoftware.api.layer.StaticField;
+import net.spicesoftware.api.util.Validate;
 import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
 import net.spicesoftware.api.util.vector.Vector2i;
 import net.spicesoftware.layer.SpiceLayer;
@@ -14,6 +15,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static net.spicesoftware.api.util.Validate.nullNot;
+
 /**
  * @since 2015/03/21
  */
@@ -23,20 +26,19 @@ public abstract class SpiceBox implements Box {
     private int height;
     private RGBA32Color backgroundColor;
     private StaticField staticField;
-    private LinkedList<Layer> layers;
+    private LinkedList<Layer> layers = new LinkedList<>();
 
     protected SpiceBox(SpiceBox copyFrom) {
-        staticField = copyFrom.staticField.copyDeeply();
+        nullNot(copyFrom);
         width = copyFrom.width;
         height = copyFrom.height;
+        staticField = copyFrom.staticField.copyDeeply();
         backgroundColor = copyFrom.backgroundColor;
         layers.addAll(copyFrom.layers.stream().map(Layer::copyDeeply).collect(Collectors.toList()));
     }
 
     public SpiceBox(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.backgroundColor = new RGBA32Color(0, 0, 0, 0);
+        this(width, height, new RGBA32Color(0, 0, 0, 0));
     }
 
     public SpiceBox(int width, int height, RGBA32Color backgroundColor) {

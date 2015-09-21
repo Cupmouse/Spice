@@ -5,7 +5,6 @@ import net.spicesoftware.api.item.Item;
 import net.spicesoftware.api.layer.Layer;
 import net.spicesoftware.api.util.NotRegisteredInRegistryException;
 import net.spicesoftware.api.util.Pair;
-import net.spicesoftware.api.util.Validate;
 import net.spicesoftware.api.util.time.FrameRanged;
 
 import javax.validation.constraints.Min;
@@ -45,11 +44,12 @@ public class SpiceLayer implements Layer {
             return Collections.emptyList();
         }
 
-        return Collections.unmodifiableList(items.subList(indexFromNearest.b, indexToNearest.a));
+        return Collections.unmodifiableList(items.subList(indexFromNearest.b, indexToNearest.a + 1));
     }
 
     @Override
     public List<FrameRanged<Item>> getItemInFrameRange(@Min(0) int frameFrom, @Min(0) int frameTo) {
+        smaller(frameFrom, frameTo);
         return getItemInFrameRange(getItemNearestIndexFrameAt(frameFrom), getItemNearestIndexFrameAt(frameTo));
     }
 
@@ -225,7 +225,7 @@ public class SpiceLayer implements Layer {
     }
 
     @Override
-    public Layer copyDeeply() {
+    public SpiceLayer copyDeeply() {
         SpiceLayer spiceLayer = new SpiceLayer();
 
         for (FrameRanged<Item> item : items) {

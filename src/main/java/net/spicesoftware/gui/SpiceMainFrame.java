@@ -19,7 +19,7 @@ public class SpiceMainFrame extends JFrame {
     private net.spicesoftware.gui.SpicePanelMainEffects panelEffects;
     private net.spicesoftware.gui.SpicePanelMainPreview panelPreview;
     private net.spicesoftware.gui.SpicePanelMainResource panelResource;
-    private net.spicesoftware.gui.timeline.SpicePanelTimeline panelTimeline;
+    private net.spicesoftware.gui.timeline.SpicePanelTimelineWrapper panelTimeline;
     // End of variables declaration//GEN-END:variables
 
     public SpiceMainFrame() {
@@ -70,7 +70,7 @@ public class SpiceMainFrame extends JFrame {
         panelResource = new net.spicesoftware.gui.SpicePanelMainResource();
         panelEffects = new net.spicesoftware.gui.SpicePanelMainEffects();
         jTabbedPane2 = new javax.swing.JTabbedPane();
-        panelTimeline = new net.spicesoftware.gui.timeline.SpicePanelTimeline();
+        panelTimeline = new net.spicesoftware.gui.timeline.SpicePanelTimelineWrapper();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(windowIcon.getImage());

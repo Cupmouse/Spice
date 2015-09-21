@@ -121,7 +121,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
           <SubComponents>
-            <Component class="net.spicesoftware.gui.timeline.SpicePanelTimeline" name="panelTimeline">
+            <Component class="net.spicesoftware.gui.timeline.SpicePanelTimelineWrapper" name="panelTimeline">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="---&#x306e;&#x30bf;&#x30a4;&#x30e0;&#x30e9;&#x30a4;&#x30f3;">

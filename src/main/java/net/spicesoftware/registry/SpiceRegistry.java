@@ -7,7 +7,6 @@ import net.spicesoftware.api.image.blender.ImageBlender;
 import net.spicesoftware.api.image.blender.property.IBPropertyDither;
 import net.spicesoftware.api.image.blender.property.IBPropertyOpacity;
 import net.spicesoftware.api.image.blender.property.ImageBlenderProperty;
-import net.spicesoftware.api.image.blender.property.builder.ImageBlenderPropertyBuilder;
 import net.spicesoftware.api.image.gs.EditableGrayScale8Image;
 import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
 import net.spicesoftware.api.image.rgba.EditableRGBA32Image;
@@ -17,7 +16,6 @@ import net.spicesoftware.api.render.Renderer;
 import net.spicesoftware.api.resource.Resource;
 import net.spicesoftware.api.resource.builder.*;
 import net.spicesoftware.api.util.AlreadyRegisteredInRegistryException;
-import net.spicesoftware.api.util.NotRegisteredInRegistryException;
 import net.spicesoftware.api.util.Pair;
 import net.spicesoftware.api.util.decoration.fill.color.GrayScale8Color;
 import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
@@ -41,7 +39,6 @@ import javax.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**

@@ -1,5 +1,7 @@
 package net.spicesoftware.gui;
 
+import net.spicesoftware.SpiceSession;
+
 import javax.swing.*;
 
 /**
@@ -8,7 +10,9 @@ import javax.swing.*;
  */
 public class SpiceMainFrame extends JFrame {
 
+    private final SpiceSession session;
     private ImageIcon windowIcon;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSplitPane jSplitPane1;
@@ -22,42 +26,12 @@ public class SpiceMainFrame extends JFrame {
     private net.spicesoftware.gui.timeline.SpicePanelTimelineWrapper panelTimeline;
     // End of variables declaration//GEN-END:variables
 
-    public SpiceMainFrame() {
+    public SpiceMainFrame(SpiceSession session) {
+        this.session = session;
         windowIcon = new ImageIcon(ClassLoader.getSystemResource("windowIcons/spiceIcon16.png"));
         initComponents();
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SpiceMainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SpiceMainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SpiceMainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SpiceMainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SpiceMainFrame().setVisible(true);
-            }
-        });
-    }
-
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -67,10 +41,10 @@ public class SpiceMainFrame extends JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panelPreview = new net.spicesoftware.gui.SpicePanelMainPreview();
         jTabbedPane3 = new javax.swing.JTabbedPane();
-        panelResource = new net.spicesoftware.gui.SpicePanelMainResource();
+        panelResource = new net.spicesoftware.gui.SpicePanelMainResource(session.getProject().get().getResourceManager());
         panelEffects = new net.spicesoftware.gui.SpicePanelMainEffects();
         jTabbedPane2 = new javax.swing.JTabbedPane();
-        panelTimeline = new net.spicesoftware.gui.timeline.SpicePanelTimelineWrapper();
+        panelTimeline = new net.spicesoftware.gui.timeline.SpicePanelTimelineWrapper(session.getProject().get().getTimeline());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(windowIcon.getImage());

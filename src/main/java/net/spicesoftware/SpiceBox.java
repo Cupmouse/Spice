@@ -3,8 +3,8 @@ package net.spicesoftware;
 import net.spicesoftware.api.Box;
 import net.spicesoftware.api.layer.Layer;
 import net.spicesoftware.api.layer.StaticField;
-import net.spicesoftware.api.util.Validate;
 import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
+import net.spicesoftware.api.util.time.FrameTime;
 import net.spicesoftware.api.util.vector.Vector2i;
 import net.spicesoftware.layer.SpiceLayer;
 import net.spicesoftware.layer.SpiceStaticField;
@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static net.spicesoftware.api.util.Validate.nullNot;
+import static net.spicesoftware.api.util.Validate.positive;
 
 /**
  * @since 2015/03/21
@@ -24,11 +25,12 @@ public abstract class SpiceBox implements Box {
 
     private int width;
     private int height;
+    private FrameTime duration;
     private RGBA32Color backgroundColor;
     private StaticField staticField;
     private LinkedList<Layer> layers = new LinkedList<>();
 
-    protected SpiceBox(SpiceBox copyFrom) {
+    protected SpiceBox(SpiceBox copyFrom) throws NullPointerException {
         nullNot(copyFrom);
         width = copyFrom.width;
         height = copyFrom.height;
@@ -37,13 +39,16 @@ public abstract class SpiceBox implements Box {
         layers.addAll(copyFrom.layers.stream().map(Layer::copyDeeply).collect(Collectors.toList()));
     }
 
-    public SpiceBox(int width, int height) {
-        this(width, height, new RGBA32Color(0, 0, 0, 0));
+    public SpiceBox(int width, int height, FrameTime duration) throws IllegalArgumentException, NullPointerException {
+        this(width, height, duration, new RGBA32Color(0, 0, 0, 0));
     }
 
-    public SpiceBox(int width, int height, RGBA32Color backgroundColor) {
+    public SpiceBox(int width, int height, FrameTime duration, RGBA32Color backgroundColor) throws IllegalArgumentException, NullPointerException {
+        positive(width, height);
+        nullNot(duration, backgroundColor);
         this.width = width;
         this.height = height;
+        this.duration = duration;
         this.backgroundColor = backgroundColor;
     }
 
@@ -71,6 +76,16 @@ public abstract class SpiceBox implements Box {
     public void setSize(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    @Override
+    public FrameTime getDuration() {
+        return duration;
+    }
+
+    @Override
+    public void setDuration(FrameTime duration) {
+        this.duration = duration;
     }
 
     @Override

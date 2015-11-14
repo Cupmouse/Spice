@@ -3,6 +3,7 @@ package net.spicesoftware.gui.timeline;
 import net.spicesoftware.api.Box;
 import net.spicesoftware.api.layer.Layer;
 import net.spicesoftware.api.util.Validate;
+import net.spicesoftware.api.util.time.FrameTime;
 import net.spicesoftware.item.SpiceItemShape;
 import net.spicesoftware.project.SpiceTimelineRoot;
 
@@ -25,14 +26,11 @@ public class SpicePanelTimelineWrapper extends javax.swing.JPanel {
     private final SpicePanelTimeline spicePanelTimeline;
 
 
-    public SpicePanelTimelineWrapper() {
-        this.box = new SpiceTimelineRoot(500, 500);
-        Layer layer = box.addLastNewLayer();
-        layer.addItemDuration(new SpiceItemShape(), 0, 100);
-        layer.addItemDuration(new SpiceItemShape(), 150, 170);
+    public SpicePanelTimelineWrapper(Box box) {
         nullNot(box);
+        this.box = box;
         initComponents();
-        spicePanelTimeline = new SpicePanelTimeline(box);
+        spicePanelTimeline = new SpicePanelTimeline(this.box);
         add(spicePanelTimeline, BorderLayout.CENTER);
     }
 

@@ -2,10 +2,11 @@ package net.spicesoftware.image.rgba;
 
 import net.spicesoftware.api.image.gs.CachedGrayScale8Image;
 import net.spicesoftware.api.image.gs.EditableGrayScale8Image;
-import net.spicesoftware.api.image.rgb.CachedRGB24Image;
 import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
-import net.spicesoftware.api.image.rgba.EditableRGBA32Image;
-import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
+import net.spicesoftware.api.image.rgba.EditableCSRGBA32Image;
+import net.spicesoftware.api.decoration.fill.RGBA32Color;
+import net.spicesoftware.api.util.ReflectionToString;
+import net.spicesoftware.api.util.ToString;
 import net.spicesoftware.api.util.vector.Vector2i;
 import net.spicesoftware.image.gs.SpiceEditableGrayScale8Image;
 
@@ -16,11 +17,15 @@ import java.util.Arrays;
 /**
  * @since 2015/03/20
  */
-public final class SpiceEditableCSRGBA32Image extends SpiceRGBA32Image implements EditableRGBA32Image {
+public final class SpiceEditableCSRGBA32Image extends SpiceRGBA32Image implements EditableCSRGBA32Image {
 
+    @ToString
     private EditableGrayScale8Image channelR;
+    @ToString
     private EditableGrayScale8Image channelG;
+    @ToString
     private EditableGrayScale8Image channelB;
+    @ToString
     private EditableGrayScale8Image channelA;
 
     public SpiceEditableCSRGBA32Image(Vector2i vector2i) {
@@ -201,7 +206,32 @@ public final class SpiceEditableCSRGBA32Image extends SpiceRGBA32Image implement
     }
 
     @Override
-    public EditableRGBA32Image copyDeeply() {
+    public EditableGrayScale8Image getChannelR() {
+        return channelR;
+    }
+
+    @Override
+    public EditableGrayScale8Image getChannelG() {
+        return channelG;
+    }
+
+    @Override
+    public EditableGrayScale8Image getChannelB() {
+        return channelB;
+    }
+
+    @Override
+    public EditableGrayScale8Image getChannelA() {
+        return channelA;
+    }
+
+    @Override
+    public SpiceEditableCSRGBA32Image copyDeeply() {
         return new SpiceEditableCSRGBA32Image(width, height, channelR.copyDeeply(), channelG.copyDeeply(), channelB.copyDeeply(), channelA.copyDeeply());
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

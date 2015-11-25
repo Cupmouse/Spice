@@ -1,7 +1,6 @@
 package net.spicesoftware.project.resource;
 
 import net.spicesoftware.api.project.resource.ResourceManager;
-import net.spicesoftware.api.project.resource.ResourceTreeElement;
 import net.spicesoftware.api.resource.Resource;
 
 import java.util.Set;
@@ -11,16 +10,17 @@ import java.util.Set;
  */
 public class SpiceResourceManager implements ResourceManager {
 
-    private SpiceResourceTreeElement resourceTreeRoot;
+    // TODO 読み込み
+    private SpiceResourceTreeFolder resourceTreeRoot;
     private Set<Resource> allResourceCache;
 
     @Override
-    public ResourceTreeElement getRootResourceTree() {
+    public SpiceResourceTreeFolder getRootOfResourceTree() {
         return resourceTreeRoot;
     }
 
     @Override
-    public Set<Resource> getAllResourceInTree() {
+    public Set<Resource> getAllResourcesInTree() {
         return allResourceCache;
     }
 }

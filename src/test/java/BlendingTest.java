@@ -51,7 +51,7 @@ public class BlendingTest extends JFrame {
         SpiceSession spiceSession = new SpiceSession();
         SpiceRegistry registry = SpiceSession.getInstance().getRegistry();
 
-        ir = rgbaImageBlender.blendImage(Pair.of(i1, registry.createIBPropertyOpacity(500)), Pair.of(i4, registry.createIBPropertyOpacity(1000)));
+        ir = rgbaImageBlender.blendImage(Pair.of(i1, registry.getImageBlenderPropertyCreator().opacity(500)), Pair.of(i4, registry.getImageBlenderPropertyCreator().opacity(1000)));
         System.out.println(System.currentTimeMillis() - starts);
 
         frame = new BlendingTest();
@@ -60,7 +60,7 @@ public class BlendingTest extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == 3) {
-                    ir = rgbaImageBlender.blendImage(Pair.of(i1, registry.createIBPropertyOpacity(e.getX())), Pair.of(i4, registry.createIBPropertyOpacity(1000)));
+                    ir = rgbaImageBlender.blendImage(Pair.of(i1, registry.getImageBlenderPropertyCreator().opacity(e.getX())), Pair.of(i4, registry.getImageBlenderPropertyCreator().opacity(1000)));
                     System.out.println("recalculated");
                 } else {
                     System.out.println(i1.getColorAt(e.getX(), e.getY()));

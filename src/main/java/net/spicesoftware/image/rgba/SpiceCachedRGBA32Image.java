@@ -1,6 +1,7 @@
 package net.spicesoftware.image.rgba;
 
 import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
+import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 import javax.validation.constraints.Min;
@@ -38,5 +39,10 @@ public final class SpiceCachedRGBA32Image extends SpiceRGBAInt32Image implements
     @Override
     public CachedRGBA32Image copyDeeply() {
         return new SpiceCachedRGBA32Image(width, height, data);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

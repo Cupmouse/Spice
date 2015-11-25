@@ -3,11 +3,11 @@ package net.spicesoftware.image.rgb;
 import net.spicesoftware.api.image.gs.CachedGrayScale8Image;
 import net.spicesoftware.api.image.gs.EditableGrayScale8Image;
 import net.spicesoftware.api.image.rgb.EditableCSRGB24Image;
-import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
+import net.spicesoftware.api.decoration.fill.RGB24Color;
+import net.spicesoftware.api.util.ReflectionToString;
+import net.spicesoftware.api.util.ToString;
 import net.spicesoftware.api.util.vector.Vector2i;
-import net.spicesoftware.image.gs.SpiceCachedGrayScale8Image;
 import net.spicesoftware.image.gs.SpiceEditableGrayScale8Image;
-import net.spicesoftware.image.rgba.SpiceCachedRGBA32Image;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -17,8 +17,11 @@ import javax.validation.constraints.Min;
  */
 public final class SpiceEditableCSRGB24Image extends SpiceRGB24Image implements EditableCSRGB24Image {
 
+    @ToString
     private EditableGrayScale8Image channelR;
+    @ToString
     private EditableGrayScale8Image channelG;
+    @ToString
     private EditableGrayScale8Image channelB;
 
     public SpiceEditableCSRGB24Image(Vector2i vector2i) {
@@ -174,5 +177,10 @@ public final class SpiceEditableCSRGB24Image extends SpiceRGB24Image implements 
     @Override
     public SpiceEditableCSRGB24Image copyDeeply() {
         return new SpiceEditableCSRGB24Image(width, height, channelR.copyDeeply(), channelG.copyDeeply(), channelB.copyDeeply());
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

@@ -1,6 +1,7 @@
 package net.spicesoftware.resource;
 
 import net.spicesoftware.api.resource.ResourceFromFile;
+import net.spicesoftware.api.util.ToString;
 
 import java.io.File;
 
@@ -9,6 +10,7 @@ import java.io.File;
  */
 public abstract class SpiceResourceFromFile extends SpiceResource implements ResourceFromFile {
 
+    @ToString
     protected File file;
 
     public SpiceResourceFromFile(File file) {

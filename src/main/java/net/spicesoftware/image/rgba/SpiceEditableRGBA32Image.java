@@ -2,7 +2,8 @@ package net.spicesoftware.image.rgba;
 
 import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
 import net.spicesoftware.api.image.rgba.EditableRGBA32Image;
-import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
+import net.spicesoftware.api.decoration.fill.RGBA32Color;
+import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 import javax.validation.constraints.Max;
@@ -98,5 +99,10 @@ public final class SpiceEditableRGBA32Image extends SpiceRGBAInt32Image implemen
     @Override
     public EditableRGBA32Image copyDeeply() {
         return new SpiceEditableRGBA32Image(width, height, data);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

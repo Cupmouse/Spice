@@ -1,6 +1,8 @@
 package net.spicesoftware.image;
 
 import net.spicesoftware.api.image.Image;
+import net.spicesoftware.api.util.ToString;
+import net.spicesoftware.api.util.Validate;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 /**
@@ -8,7 +10,9 @@ import net.spicesoftware.api.util.vector.Vector2i;
  */
 public abstract class SpiceImage implements Image {
 
+    @ToString
     public final int width;
+    @ToString
     public final int height;
 
     public SpiceImage(Vector2i vector2i) {
@@ -23,13 +27,12 @@ public abstract class SpiceImage implements Image {
     }
 
     protected void validatePosition(int x, int y) {
-        if (x < 0 || y < 0 || x >= width || y >= height)
-            throw new IllegalArgumentException();
+        Validate.position(width, height, x, y);
     }
 
     @Override
     public Vector2i getSize() {
-        return new Vector2i(width, height);
+        return Vector2i.v2i(width, height);
     }
 
     @Override

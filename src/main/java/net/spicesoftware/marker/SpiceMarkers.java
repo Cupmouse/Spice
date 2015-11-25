@@ -2,19 +2,19 @@ package net.spicesoftware.marker;
 
 import net.spicesoftware.api.marker.Marker;
 import net.spicesoftware.api.marker.Markers;
+import net.spicesoftware.api.util.ReflectionToString;
+import net.spicesoftware.api.util.ToString;
 
 import javax.validation.constraints.Min;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @since 2015/04/07
  */
 public class SpiceMarkers implements Markers {
 
-    private Map<Integer, Marker> markers = new HashMap<>();
+    @ToString
+    private TreeMap<Integer, Marker> markers = new TreeMap<>();
 
     @Override
     public Map<Integer, Marker> getMarkerMap() {
@@ -50,5 +50,10 @@ public class SpiceMarkers implements Markers {
             copied.markers.put(entry.getKey(), entry.getValue().copyDeeply());
         }
         return copied;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

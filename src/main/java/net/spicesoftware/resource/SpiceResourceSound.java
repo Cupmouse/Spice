@@ -2,6 +2,7 @@ package net.spicesoftware.resource;
 
 import net.spicesoftware.api.item.ItemSound;
 import net.spicesoftware.api.resource.ResourceSound;
+import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.item.SpiceItemSound;
 
 import java.io.File;
@@ -9,7 +10,7 @@ import java.io.File;
 /**
  * @since 2015/04/20
  */
-public class SpiceResourceSound extends SpiceResourceFromFile implements ResourceSound {
+public final class SpiceResourceSound extends SpiceResourceFromFile implements ResourceSound {
 
     public SpiceResourceSound(File file) {
         super(file);
@@ -21,7 +22,7 @@ public class SpiceResourceSound extends SpiceResourceFromFile implements Resourc
     }
 
     @Override
-    public ItemSound createNewItem() {
-        return new SpiceItemSound(this);
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

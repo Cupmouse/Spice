@@ -1,254 +1,78 @@
 package net.spicesoftware.registry;
 
+import net.spicesoftware.api.Builder;
 import net.spicesoftware.api.image.CachedImage;
 import net.spicesoftware.api.image.Image;
 import net.spicesoftware.api.image.ImageConverter;
 import net.spicesoftware.api.image.blender.ImageBlender;
-import net.spicesoftware.api.image.blender.property.IBPropertyDither;
-import net.spicesoftware.api.image.blender.property.IBPropertyOpacity;
 import net.spicesoftware.api.image.blender.property.ImageBlenderProperty;
-import net.spicesoftware.api.image.blender.property.builder.ImageBlenderPropertyBuilder;
-import net.spicesoftware.api.image.gs.EditableGrayScale8Image;
-import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
-import net.spicesoftware.api.image.rgba.EditableRGBA32Image;
+import net.spicesoftware.api.registry.ImageBlenderPropertyCreator;
+import net.spicesoftware.api.registry.ImageCreator;
 import net.spicesoftware.api.registry.Registry;
 import net.spicesoftware.api.render.Renderable;
 import net.spicesoftware.api.render.Renderer;
-import net.spicesoftware.api.resource.Resource;
-import net.spicesoftware.api.resource.builder.*;
 import net.spicesoftware.api.util.AlreadyRegisteredInRegistryException;
-import net.spicesoftware.api.util.NotRegisteredInRegistryException;
 import net.spicesoftware.api.util.Pair;
-import net.spicesoftware.api.util.decoration.fill.color.GrayScale8Color;
-import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
-import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
-import net.spicesoftware.api.util.vector.Vector2i;
 import net.spicesoftware.api.value.Interpolator;
-import net.spicesoftware.image.blender.property.SpiceIBPropertyDither;
-import net.spicesoftware.image.blender.property.SpiceIBPropertyOpacity;
-import net.spicesoftware.image.gs.SpiceCachedGrayScale8Image;
-import net.spicesoftware.image.gs.SpiceEditableGrayScale8Image;
-import net.spicesoftware.image.rgb.SpiceCachedRGB24Image;
-import net.spicesoftware.image.rgb.SpiceEditableCSRGB24Image;
-import net.spicesoftware.image.rgb.SpiceEditableRGB24Image;
-import net.spicesoftware.image.rgba.SpiceCachedRGBA32Image;
-import net.spicesoftware.image.rgba.SpiceEditableCSRGBA32Image;
-import net.spicesoftware.image.rgba.SpiceEditableRGBA32Image;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
  * @since 2015/03/19
  */
-public class SpiceRegistry implements Registry {
+public final class SpiceRegistry implements Registry {
 
+    private final ImageBlenderPropertyCreator imageBlenderPropertyCreator = new SpiceImageBlenderPropertyCreator();
+    private final ImageCreator imageCreator = new SpiceImageCreator();
+
+    private final Map<Class<? extends Builder>, Supplier<? extends Builder>> builders = new HashMap<>();
     private final Map<Class, Map<String, Interpolator>> interpolators = new HashMap<>();
     private final Map<Pair<Class<? extends CachedImage>, Class<? extends ImageBlenderProperty>>, Map<String, ImageBlender>> imageBlenders = new HashMap<>();
     private final Map<Pair<Class, Class>, Map<String, ImageConverter>> imageConverters = new HashMap<>();
-    private final Map<Class<? extends Resource>, Supplier<? extends ResourceBuilder>> resourceBuilders = new HashMap<>();
-    private Map<Class<? extends ImageBlenderProperty>, Supplier<? extends ImageBlenderPropertyBuilder>> imageBlenderPropertyBuilders;
 //    private final Map<Pair<Class, Class>, Map<String, ImageConverter>> imageConverters = new HashMap<>();
 
-    public <T extends Resource> Optional<ResourceBuilder<T>> getResourceBuilderOf(Class<T> clazz) {
-        Supplier<? extends ResourceBuilder> supplier = resourceBuilders.get(clazz);
-        if (supplier == null) {
-            return Optional.empty();
-        }
-        return Optional.ofNullable(((Supplier<ResourceBuilder<T>>) supplier).get());
+    @Override
+    public <T extends Builder> T createBuilder(Class<T> clazz) throws IllegalStateException {
+        return (T) builders.get(clazz).get();
     }
 
     @Override
-    public <T extends Resource> void registerResourceBuilder(Class<T> clazz, Supplier<ResourceBuilder<T>> builderSupplier) throws AlreadyRegisteredInRegistryException {
-        if (resourceBuilders.containsKey(clazz)) {
+    public <T extends Builder> void registerBuilder(Class<T> clazz, Supplier<T> builderSupplier) throws AlreadyRegisteredInRegistryException {
+        if (builders.containsKey(clazz)) {
             throw new AlreadyRegisteredInRegistryException();
         }
 
-        resourceBuilders.put(clazz, builderSupplier);
+        // TODO 重複チェック（Supplierが毎回同じインスタンスを返していないかチェック）
+
+        builders.put(clazz, builderSupplier);
     }
 
-    public <T extends ImageBlenderProperty> Optional<ImageBlenderPropertyBuilder<T>> getImageBlenderPropertyBuilderOf(Class<T> clazz) {
-        Supplier<? extends ImageBlenderPropertyBuilder> supplier = imageBlenderPropertyBuilders.get(clazz);
-        if (supplier == null) {
-            return Optional.empty();
+    @Override
+    public <T extends Builder> Supplier<T> unregisterBuilder(Class<T> clazz) throws IllegalArgumentException {
+        if (!builders.containsKey(clazz)) {
+            throw new IllegalArgumentException();
         }
-        return Optional.of(((Supplier<ImageBlenderPropertyBuilder<T>>) supplier).get());
+
+        return (Supplier<T>) builders.remove(clazz);
     }
 
     @Override
-    public IBPropertyOpacity createIBPropertyOpacity(@Min(0) @Max(1000) int opacity) {
-        return new SpiceIBPropertyOpacity(opacity);
+    public boolean isRegisteredBuilder(Class<? extends Builder> clazz) {
+        return builders.containsKey(clazz);
     }
 
     @Override
-    public IBPropertyDither createIBPropertyDither(@Min(0) @Max(1000) int opacity, int seed) {
-        return new SpiceIBPropertyDither(opacity, seed);
+    public ImageBlenderPropertyCreator getImageBlenderPropertyCreator() {
+        return imageBlenderPropertyCreator;
     }
 
     @Override
-    public SpiceCachedGrayScale8Image createCachedGrayScaleImage(int width, int height, byte[] image) throws IllegalArgumentException {
-        return new SpiceCachedGrayScale8Image(width, height, image);
-    }
-
-    @Override
-    public SpiceEditableGrayScale8Image createNewGrayScaleImage(int width, int height, byte[] image) throws IllegalArgumentException {
-        return new SpiceEditableGrayScale8Image(width, height, image);
-    }
-
-    @Override
-    public SpiceEditableGrayScale8Image createNewGrayScaleImage(int width, int height) throws IllegalArgumentException {
-        return new SpiceEditableGrayScale8Image(width, height);
-    }
-
-    @Override
-    public SpiceEditableGrayScale8Image createNewGrayScaleImage(Vector2i size) {
-        return new SpiceEditableGrayScale8Image(size.x, size.y);
-    }
-
-    @Override
-    public SpiceEditableGrayScale8Image createNewGrayScaleImage(int width, int height, byte backgroundColor) throws IllegalArgumentException {
-        return new SpiceEditableGrayScale8Image(width, height, backgroundColor);
-    }
-
-    @Override
-    public SpiceEditableGrayScale8Image createNewGrayScaleImage(Vector2i size, byte backgroundColor) {
-        return new SpiceEditableGrayScale8Image(size.x, size.y, backgroundColor);
-    }
-
-    @Override
-    public SpiceEditableGrayScale8Image createNewGrayScaleImage(int width, int height, int backgroundColor) throws IllegalArgumentException {
-        return new SpiceEditableGrayScale8Image(width, height, ((byte) backgroundColor));
-    }
-
-    @Override
-    public SpiceEditableGrayScale8Image createNewGrayScaleImage(Vector2i size, int backgroundColor) {
-        return new SpiceEditableGrayScale8Image(size.x, size.y, ((byte) backgroundColor));
-    }
-
-    @Override
-    public SpiceEditableGrayScale8Image createNewGrayScaleImage(int width, int height, GrayScale8Color backgroundColor) throws IllegalArgumentException {
-        return new SpiceEditableGrayScale8Image(width, height, ((byte) backgroundColor.w));
-    }
-
-    @Override
-    public SpiceEditableGrayScale8Image createNewGrayScaleImage(Vector2i size, GrayScale8Color backgroundColor) {
-        return new SpiceEditableGrayScale8Image(size.x, size.y, ((byte) backgroundColor.w));
-    }
-
-    @Override
-    public SpiceCachedRGB24Image createCachedRGBImage(int width, int height, int[] image) throws IllegalArgumentException {
-        return new SpiceCachedRGB24Image(width, height, image);
-    }
-
-    @Override
-    public SpiceEditableRGB24Image createNewRGBImage(int width, int height, int[] image) throws IllegalArgumentException {
-        return new SpiceEditableRGB24Image(width, height, image);
-    }
-
-    @Override
-    public SpiceEditableRGB24Image createNewRGBImage(int width, int height) throws IllegalArgumentException {
-        return new SpiceEditableRGB24Image(width, height);
-    }
-
-    @Override
-    public SpiceEditableRGB24Image createNewRGBImage(Vector2i size) {
-        return new SpiceEditableRGB24Image(size.x, size.y);
-    }
-
-    @Override
-    public SpiceEditableRGB24Image createNewRGBImage(int width, int height, int backgroundColor) throws IllegalArgumentException {
-        return new SpiceEditableRGB24Image(width, height, backgroundColor);
-    }
-
-    @Override
-    public SpiceEditableRGB24Image createNewRGBImage(Vector2i size, int backgroundColor) {
-        return new SpiceEditableRGB24Image(size.x, size.y, backgroundColor);
-    }
-
-    @Override
-    public SpiceEditableRGB24Image createNewRGBImage(int width, int height, RGB24Color backgroundColor) throws IllegalArgumentException {
-        return new SpiceEditableRGB24Image(width, height, backgroundColor.toRGB24Int());
-    }
-
-    @Override
-    public SpiceEditableRGB24Image createNewRGBImage(Vector2i size, RGB24Color backgroundColor) {
-        return new SpiceEditableRGB24Image(size.x, size.y, backgroundColor.toRGB24Int());
-    }
-
-    @Override
-    public SpiceEditableCSRGB24Image createNewCSRGBImage(int width, int height, EditableGrayScale8Image channelR, EditableGrayScale8Image channelG, EditableGrayScale8Image channelB) throws IllegalArgumentException {
-        return new SpiceEditableCSRGB24Image(width, height, channelR, channelG, channelB);
-    }
-
-    @Override
-    public SpiceEditableCSRGB24Image createNewCSRGBImage(Vector2i size, EditableGrayScale8Image channelR, EditableGrayScale8Image channelG, EditableGrayScale8Image channelB) {
-        return new SpiceEditableCSRGB24Image(size.x, size.y, channelR, channelG, channelB);
-    }
-
-    @Override
-    public CachedRGBA32Image createCachedRGBAImage(int width, int height, int[] image) throws IllegalArgumentException {
-        return new SpiceCachedRGBA32Image(width, height, image);
-    }
-
-    @Override
-    public EditableRGBA32Image createNewRGBAImage(int width, int height, int[] image) throws IllegalArgumentException {
-        return new SpiceEditableRGBA32Image(width, height, image);
-    }
-
-    @Override
-    public EditableRGBA32Image createNewRGBAImage(int width, int height) throws IllegalArgumentException {
-        return new SpiceEditableRGBA32Image(width, height);
-    }
-
-    @Override
-    public EditableRGBA32Image createNewRGBAImage(Vector2i size) {
-        return new SpiceEditableRGBA32Image(size.x, size.y);
-    }
-
-    @Override
-    public EditableRGBA32Image createNewRGBAImage(int width, int height, int backgroundColor) throws IllegalArgumentException {
-        return new SpiceEditableRGBA32Image(width, height, backgroundColor);
-    }
-
-    @Override
-    public EditableRGBA32Image createNewRGBAImage(Vector2i size, int backgroundColor) {
-        return new SpiceEditableRGBA32Image(size.x, size.y, backgroundColor);
-    }
-
-    @Override
-    public EditableRGBA32Image createNewRGBAImage(int width, int height, long backgroundColor) throws IllegalArgumentException {
-        return new SpiceEditableRGBA32Image(width, height, ((int) backgroundColor));
-    }
-
-    @Override
-    public EditableRGBA32Image createNewRGBAImage(Vector2i size, long backgroundColor) {
-        return new SpiceEditableRGBA32Image(size.x, size.y, ((int) backgroundColor));
-    }
-
-    @Override
-    public EditableRGBA32Image createNewRGBAImage(int width, int height, RGBA32Color backgroundColor) throws IllegalArgumentException {
-        return new SpiceEditableRGBA32Image(width, height, backgroundColor.toRGBA32Int());
-    }
-
-    @Override
-    public EditableRGBA32Image createNewRGBAImage(Vector2i size, RGBA32Color backgroundColor) {
-        return new SpiceEditableRGBA32Image(size.x, size.y, backgroundColor.toRGBA32Int());
-    }
-
-    @Override
-    public EditableRGBA32Image createNewCSRGBAImage(int width, int height, EditableGrayScale8Image channelR, EditableGrayScale8Image channelG, EditableGrayScale8Image channelB, EditableGrayScale8Image channelA) throws IllegalArgumentException {
-        return new SpiceEditableCSRGBA32Image(width, height, channelR, channelG, channelB, channelA);
-    }
-
-    @Override
-    public EditableRGBA32Image createNewCSRGBAImage(Vector2i size, EditableGrayScale8Image channelR, EditableGrayScale8Image channelG, EditableGrayScale8Image channelB, EditableGrayScale8Image channelA) {
-        return new SpiceEditableCSRGBA32Image(size.x, size.y, channelR, channelG, channelB, channelA);
+    public ImageCreator getImageCreator() {
+        return imageCreator;
     }
 
     @Override

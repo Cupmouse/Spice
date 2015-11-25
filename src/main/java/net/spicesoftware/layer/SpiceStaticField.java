@@ -2,6 +2,8 @@ package net.spicesoftware.layer;
 
 import net.spicesoftware.api.item.StaticItem;
 import net.spicesoftware.api.layer.StaticField;
+import net.spicesoftware.api.util.ReflectionToString;
+import net.spicesoftware.api.util.ToString;
 import net.spicesoftware.api.value.HasValues;
 import net.spicesoftware.api.value.Values;
 
@@ -16,6 +18,7 @@ import java.util.NoSuchElementException;
  */
 public class SpiceStaticField implements StaticField, HasValues {
 
+    @ToString
     private LinkedList<StaticItem> items;
 
     @Override
@@ -75,4 +78,8 @@ public class SpiceStaticField implements StaticField, HasValues {
         return copied;
     }
 
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
+    }
 }

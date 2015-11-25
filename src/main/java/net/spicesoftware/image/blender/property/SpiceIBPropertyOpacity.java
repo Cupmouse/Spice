@@ -1,6 +1,8 @@
 package net.spicesoftware.image.blender.property;
 
 import net.spicesoftware.api.image.blender.property.IBPropertyOpacity;
+import net.spicesoftware.api.util.ReflectionToString;
+import net.spicesoftware.api.util.ToString;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -10,6 +12,7 @@ import javax.validation.constraints.Min;
  */
 public final class SpiceIBPropertyOpacity implements IBPropertyOpacity {
 
+    @ToString
     private final int opacity;
 
     public SpiceIBPropertyOpacity(@Min(0) @Max(1000) int opacity) {
@@ -19,5 +22,10 @@ public final class SpiceIBPropertyOpacity implements IBPropertyOpacity {
     @Override
     public int getOpacity() {
         return opacity;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

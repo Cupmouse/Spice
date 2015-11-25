@@ -1,6 +1,7 @@
 package net.spicesoftware.image.rgb;
 
 import net.spicesoftware.api.image.rgb.CachedRGB24Image;
+import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 import javax.validation.constraints.Max;
@@ -40,5 +41,10 @@ public final class SpiceCachedRGB24Image extends SpiceRGBInt24Image implements C
     @Override
     public SpiceCachedRGB24Image copyDeeply() {
         return new SpiceCachedRGB24Image(width, height, data);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

@@ -2,6 +2,8 @@ package net.spicesoftware.plugin;
 
 import net.spicesoftware.api.plugin.Plugin;
 import net.spicesoftware.api.plugin.PluginContainer;
+import net.spicesoftware.api.util.ReflectionToString;
+import net.spicesoftware.api.util.ToString;
 
 import java.util.Optional;
 
@@ -10,12 +12,19 @@ import java.util.Optional;
  */
 public class SpicePluginContainer implements PluginContainer {
 
+    @ToString
     private final String name;
+    @ToString
     private final String id;
+    @ToString
     private final String[] pluginIdsDepend;
+    @ToString
     private final String spiceAPIVersionDepend;
+    @ToString
     private Plugin instance;
+    @ToString
     private boolean initialized;
+    @ToString
     private boolean enabled;
 
     public SpicePluginContainer(String name, String id, String[] pluginIdsDepend, String spiceAPIVersionDepend) {
@@ -64,5 +73,10 @@ public class SpicePluginContainer implements PluginContainer {
     public boolean isCompatible() {
         // TODO
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

@@ -2,7 +2,6 @@ package net.spicesoftware.decoration.fill.gradient.rgb24;
 
 import net.spicesoftware.api.decoration.fill.RGB24Color;
 import net.spicesoftware.api.decoration.fill.gradient.rgb24.RGB24GradientFillingLinear;
-import net.spicesoftware.api.decoration.fill.gradient.rgb24.RGB24GradientFillingLinearBuilder;
 import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.decoration.fill.gradient.SpiceColorStopGradientFillingBuilder;
 
@@ -12,7 +11,7 @@ import javax.validation.constraints.Min;
 /**
  * @since 2015/11/15
  */
-public final class SpiceRGB24GradientFillingLinearBuilder extends SpiceColorStopGradientFillingBuilder<RGB24Color, RGB24GradientFillingLinear> implements RGB24GradientFillingLinearBuilder {
+public final class SpiceRGB24GradientFillingLinearBuilder extends SpiceColorStopGradientFillingBuilder<RGB24Color, RGB24GradientFillingLinear> implements RGB24GradientFillingLinear.Builder {
 
 
     protected SpiceRGB24GradientFillingLinearBuilder() {

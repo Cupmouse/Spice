@@ -2,7 +2,6 @@ package net.spicesoftware.decoration.fill.gradient.rgb24;
 
 import net.spicesoftware.api.decoration.fill.RGB24Color;
 import net.spicesoftware.api.decoration.fill.gradient.rgb24.RGB24GradientFillingRadial;
-import net.spicesoftware.api.decoration.fill.gradient.rgb24.RGB24GradientFillingRadialBuilder;
 import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.api.util.vector.Vector2i;
 import net.spicesoftware.decoration.fill.gradient.SpiceGradientFillingRadialBuilder;
@@ -13,7 +12,7 @@ import javax.validation.constraints.Min;
 /**
  * @since 2015/11/15
  */
-public final class SpiceRGB24GradientFillingRadialBuilder extends SpiceGradientFillingRadialBuilder<RGB24Color, RGB24GradientFillingRadial> implements RGB24GradientFillingRadialBuilder {
+public final class SpiceRGB24GradientFillingRadialBuilder extends SpiceGradientFillingRadialBuilder<RGB24Color, RGB24GradientFillingRadial> implements RGB24GradientFillingRadial.Builder {
 
     @Override
     public SpiceRGB24GradientFillingRadialBuilder radialCenter(int centerXPos, int centerYPos) {

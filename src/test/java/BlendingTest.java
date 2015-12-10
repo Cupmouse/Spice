@@ -1,11 +1,8 @@
 import net.spicesoftware.SpiceSession;
-import net.spicesoftware.api.Spice;
-import net.spicesoftware.api.image.blender.property.IBPropertyOpacity;
 import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
 import net.spicesoftware.api.util.Pair;
 import net.spicesoftware.image.blender.SpiceRGBALightenImageBlender;
 import net.spicesoftware.image.rgba.SpiceCachedRGBA32Image;
-import net.spicesoftware.image.rgba.SpiceEditableRGBA32Image;
 import net.spicesoftware.registry.SpiceRegistry;
 
 import javax.imageio.ImageIO;

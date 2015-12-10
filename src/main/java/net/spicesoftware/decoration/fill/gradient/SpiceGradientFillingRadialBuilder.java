@@ -2,13 +2,12 @@ package net.spicesoftware.decoration.fill.gradient;
 
 import net.spicesoftware.api.decoration.fill.Color;
 import net.spicesoftware.api.decoration.fill.gradient.GradientFillingRadial;
-import net.spicesoftware.api.decoration.fill.gradient.GradientFillingRadialBuilder;
 import net.spicesoftware.api.util.ToString;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 import static net.spicesoftware.api.util.Validate.nullNot;
 
-public abstract class SpiceGradientFillingRadialBuilder<C extends Color, T extends GradientFillingRadial<C>> extends SpiceColorStopGradientFillingBuilder<C, T> implements GradientFillingRadialBuilder<C, T> {
+public abstract class SpiceGradientFillingRadialBuilder<C extends Color, T extends GradientFillingRadial<C>> extends SpiceColorStopGradientFillingBuilder<C, T> implements GradientFillingRadial.IBuilder<C, T> {
 
     @ToString
     protected int centerXPos;

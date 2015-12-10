@@ -1,8 +1,8 @@
 package net.spicesoftware.gui.common.colorselector;
 
+import net.spicesoftware.api.decoration.fill.HSV360Color;
+import net.spicesoftware.api.decoration.fill.RGB24Color;
 import net.spicesoftware.api.gui.common.colorpicker.RGB24ColorSelectorSquare;
-import net.spicesoftware.api.util.decoration.fill.color.HSV360Color;
-import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
 
 import java.awt.image.BufferedImage;
 

@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 /**
  * @since 2015/03/31
  */
-public class SpiceRGBALightenImageBlender extends SpiceRGBAImageBlender<CachedRGBA32Image, IBPropertyOpacity> {
+public final class SpiceRGBALightenImageBlender extends SpiceRGBAImageBlender<CachedRGBA32Image, IBPropertyOpacity> {
 
     @Override
     public CachedRGBA32Image blendImage(@Size(min = 2) Pair<CachedRGBA32Image, IBPropertyOpacity>... images) {

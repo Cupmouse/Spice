@@ -3,6 +3,9 @@ package net.spicesoftware.project.resource;
 import net.spicesoftware.api.project.resource.ResourceTreeFolder;
 import net.spicesoftware.api.resource.Resource;
 import net.spicesoftware.api.util.ResourceAlreadyExistInTreeException;
+import net.spicesoftware.api.util.ReflectionToString;
+import net.spicesoftware.api.util.ToString;
+import net.spicesoftware.api.util.Validate;
 
 import java.util.*;
 
@@ -11,8 +14,16 @@ import java.util.*;
  */
 public class SpiceResourceTreeFolder implements ResourceTreeFolder {
 
+    @ToString
+    private SpiceResourceManager resourceManager;
+    @ToString
     private Map<String, Resource> resourceMap = new HashMap<>();
-    private Map<String, ResourceTreeFolder> foldersMap = new HashMap<>();
+    @ToString
+    private Map<String, SpiceResourceTreeFolder> folderMap = new HashMap<>();
+
+    public SpiceResourceTreeFolder(SpiceResourceManager resourceManager) {
+        this.resourceManager = resourceManager;
+    }
 
     @Override
     public Map<String, Resource> getResourceMap() {
@@ -35,14 +46,10 @@ public class SpiceResourceTreeFolder implements ResourceTreeFolder {
     }
 
     @Override
-    public Resource addResourceCopyOf(Resource resource, String name) {
-        Resource copiedResource = resource.copyDeeply();
-        resourceMap.put(name, copiedResource);
-        return copiedResource;
-    }
-
-    @Override
     public Resource addResource(Resource resource, String name) throws ResourceAlreadyExistInTreeException {
+        if (resourceMap.containsKey(name)) {
+            throw new ResourceAlreadyExistInTreeException();
+        }
         resourceMap.put(name, resource);
         return resource;
     }
@@ -53,45 +60,52 @@ public class SpiceResourceTreeFolder implements ResourceTreeFolder {
     }
 
     @Override
-    public Resource renameResourceTo(String beforeName, String afterName) {
-        Resource renamed = resourceMap.remove(beforeName);
-        resourceMap.put(afterName, renamed);
-        return renamed;
+    public Resource renameResourceTo(String beforeName, String afterName) throws IllegalArgumentException {
+        Validate.truE(resourceMap.containsKey(beforeName));
+        Validate.falsE(resourceMap.containsKey(afterName));
+        Resource removed = resourceMap.remove(beforeName);
+        resourceMap.put(afterName, removed);
+        return removed;
     }
 
     @Override
     public Map<String, ResourceTreeFolder> getFolderMap() {
-        return Collections.unmodifiableMap(foldersMap);
+        return Collections.unmodifiableMap(folderMap);
     }
 
     @Override
     public Optional<ResourceTreeFolder> getFolder(String name) {
-        return Optional.ofNullable(foldersMap.get(name));
+        return Optional.ofNullable(folderMap.get(name));
     }
 
     @Override
     public Optional<ResourceTreeFolder> getFolder(String... path) {
-        ResourceTreeFolder currentFolder = this;
-        for (int i = 0; i < path.length; i++) {
-            Optional<ResourceTreeFolder> folder = currentFolder.getFolder(path[i]);
+        // TODO 一個づつ配列を前から消してバケツリレーもありじゃないか
+        SpiceResourceTreeFolder currentPos = this;
 
-            if (!folder.isPresent()) {
+        for (int i = 0; i < path.length; i++) {
+            currentPos = currentPos.folderMap.get(path[i]);
+
+            if (currentPos == null) {
                 return Optional.empty();
             }
-
-            currentFolder = folder.get();
         }
 
-        return Optional.of(currentFolder);
+        return Optional.of(currentPos);
     }
 
     @Override
     public ResourceTreeFolder createNewFolder(String name) {
-        if (foldersMap.containsKey(name)) {
+        if (folderMap.containsKey(name)) {
             throw new IllegalArgumentException();
         }
-        ResourceTreeFolder newElement = new SpiceResourceTreeFolder();
-        foldersMap.put(name, newElement);
-        return newElement;
+        SpiceResourceTreeFolder created = new SpiceResourceTreeFolder(resourceManager);
+        folderMap.put(name, created);
+        return created;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

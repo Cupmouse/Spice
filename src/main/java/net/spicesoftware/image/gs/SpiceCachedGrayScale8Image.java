@@ -1,6 +1,7 @@
 package net.spicesoftware.image.gs;
 
 import net.spicesoftware.api.image.gs.CachedGrayScale8Image;
+import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 import javax.validation.constraints.Min;
@@ -39,5 +40,10 @@ public final class SpiceCachedGrayScale8Image extends SpiceGrayScale8Image imple
     @Override
     public SpiceCachedGrayScale8Image copyDeeply() {
         return new SpiceCachedGrayScale8Image(width, height, data);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

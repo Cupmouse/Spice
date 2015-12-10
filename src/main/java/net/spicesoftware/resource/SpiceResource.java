@@ -2,6 +2,7 @@ package net.spicesoftware.resource;
 
 import net.spicesoftware.api.marker.Markers;
 import net.spicesoftware.api.resource.Resource;
+import net.spicesoftware.api.util.ToString;
 import net.spicesoftware.marker.SpiceMarkers;
 
 /**
@@ -9,6 +10,7 @@ import net.spicesoftware.marker.SpiceMarkers;
  */
 public abstract class SpiceResource implements Resource {
 
+    @ToString
     private Markers markers;
 
     public SpiceResource() {

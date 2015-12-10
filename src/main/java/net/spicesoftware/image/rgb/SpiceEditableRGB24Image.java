@@ -2,7 +2,8 @@ package net.spicesoftware.image.rgb;
 
 import net.spicesoftware.api.image.rgb.CachedRGB24Image;
 import net.spicesoftware.api.image.rgb.EditableRGB24Image;
-import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
+import net.spicesoftware.api.decoration.fill.RGB24Color;
+import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 import javax.validation.constraints.Max;
@@ -71,5 +72,10 @@ public final class SpiceEditableRGB24Image extends SpiceRGBInt24Image implements
     @Override
     public SpiceEditableRGB24Image copyDeeply() {
         return new SpiceEditableRGB24Image(width, height, data);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

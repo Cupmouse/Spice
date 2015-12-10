@@ -2,6 +2,7 @@ package net.spicesoftware.resource;
 
 import net.spicesoftware.api.item.ItemPicture;
 import net.spicesoftware.api.resource.ResourcePicture;
+import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.item.SpiceItemPicture;
 
 import java.io.File;
@@ -9,7 +10,7 @@ import java.io.File;
 /**
  * @since 2015/04/14
  */
-public class SpiceResourcePicture extends SpiceResourceFromFile implements ResourcePicture {
+public final class SpiceResourcePicture extends SpiceResourceFromFile implements ResourcePicture {
 
     public SpiceResourcePicture(File file) {
         super(file);
@@ -21,7 +22,7 @@ public class SpiceResourcePicture extends SpiceResourceFromFile implements Resou
     }
 
     @Override
-    public ItemPicture createNewItem() {
-        return new SpiceItemPicture(this);
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- *
  * @author mouse
  */
 public class SpiceStartSplash extends SpiceMovableUndecoratedDialog {
@@ -44,7 +43,7 @@ public class SpiceStartSplash extends SpiceMovableUndecoratedDialog {
         jLabel1 = new javax.swing.JLabel();
         jProgressBar2 = new javax.swing.JProgressBar();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         setResizable(false);
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));

@@ -12,15 +12,16 @@ import java.util.Set;
  */
 public class SpiceResourceManager implements ResourceManager {
 
+    // TODO 読み込み
     private SpiceResourceTreeFolder resourceTreeRoot;
     private Set<Resource> allResourceCache;
 
     public SpiceResourceManager() {
-        this.resourceTreeRoot = new SpiceResourceTreeFolder();
+        this.resourceTreeRoot = new SpiceResourceTreeFolder(this);
     }
 
     @Override
-    public ResourceTreeFolder getRootOfResourceTree() {
+    public SpiceResourceTreeFolder getRootOfResourceTree() {
         return resourceTreeRoot;
     }
 

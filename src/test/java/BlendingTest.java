@@ -1,11 +1,8 @@
 import net.spicesoftware.SpiceSession;
-import net.spicesoftware.api.Spice;
-import net.spicesoftware.api.image.blender.property.IBPropertyOpacity;
 import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
 import net.spicesoftware.api.util.Pair;
 import net.spicesoftware.image.blender.SpiceRGBALightenImageBlender;
 import net.spicesoftware.image.rgba.SpiceCachedRGBA32Image;
-import net.spicesoftware.image.rgba.SpiceEditableRGBA32Image;
 import net.spicesoftware.registry.SpiceRegistry;
 
 import javax.imageio.ImageIO;
@@ -51,7 +48,7 @@ public class BlendingTest extends JFrame {
         SpiceSession spiceSession = new SpiceSession();
         SpiceRegistry registry = SpiceSession.getInstance().getRegistry();
 
-        ir = rgbaImageBlender.blendImage(Pair.of(i1, registry.createIBPropertyOpacity(500)), Pair.of(i4, registry.createIBPropertyOpacity(1000)));
+        ir = rgbaImageBlender.blendImage(Pair.of(i1, registry.getImageBlenderPropertyCreator().opacity(500)), Pair.of(i4, registry.getImageBlenderPropertyCreator().opacity(1000)));
         System.out.println(System.currentTimeMillis() - starts);
 
         frame = new BlendingTest();
@@ -60,7 +57,7 @@ public class BlendingTest extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == 3) {
-                    ir = rgbaImageBlender.blendImage(Pair.of(i1, registry.createIBPropertyOpacity(e.getX())), Pair.of(i4, registry.createIBPropertyOpacity(1000)));
+                    ir = rgbaImageBlender.blendImage(Pair.of(i1, registry.getImageBlenderPropertyCreator().opacity(e.getX())), Pair.of(i4, registry.getImageBlenderPropertyCreator().opacity(1000)));
                     System.out.println("recalculated");
                 } else {
                     System.out.println(i1.getColorAt(e.getX(), e.getY()));

@@ -1,9 +1,9 @@
 package net.spicesoftware.gui.common;
 
 
+import net.spicesoftware.api.decoration.fill.RGB24Color;
 import net.spicesoftware.api.gui.common.CircularPopupMenu;
 import net.spicesoftware.api.gui.common.CircularPopupMenuChoice;
-import net.spicesoftware.api.util.decoration.fill.color.RGB24Color;
 import net.spicesoftware.api.util.gui.GUIUtil;
 
 import java.awt.*;

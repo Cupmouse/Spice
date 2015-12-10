@@ -4,6 +4,7 @@ import net.spicesoftware.SpiceSession;
 import net.spicesoftware.api.Spice;
 import net.spicesoftware.api.project.Project;
 import net.spicesoftware.api.project.TimelineRoot;
+import net.spicesoftware.api.util.ToString;
 import net.spicesoftware.api.util.time.FrameTime;
 import net.spicesoftware.project.resource.SpiceResourceManager;
 
@@ -15,12 +16,18 @@ import static net.spicesoftware.api.util.Validate.nullNot;
 /**
  * @since 2015/03/21
  */
-public class SpiceProject implements Project {
+public final class SpiceProject implements Project {
 
+    // TODO 読み込み
+    @ToString
     private final SpiceSession spiceSession;
+    @ToString
     private String name;
+    @ToString
     private ZonedDateTime createdDate;
+    @ToString
     private SpiceTimelineRoot timeline;
+    @ToString
     private SpiceResourceManager resourceManager;
 
     public SpiceProject(SpiceSession spiceSession) throws NullPointerException {

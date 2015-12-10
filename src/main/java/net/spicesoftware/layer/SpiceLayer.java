@@ -2,9 +2,12 @@ package net.spicesoftware.layer;
 
 import net.spicesoftware.api.image.blender.ImageBlender;
 import net.spicesoftware.api.item.Item;
+import net.spicesoftware.api.item.builder.ItemBuilder;
 import net.spicesoftware.api.layer.Layer;
 import net.spicesoftware.api.util.NotRegisteredInRegistryException;
 import net.spicesoftware.api.util.Pair;
+import net.spicesoftware.api.util.ReflectionToString;
+import net.spicesoftware.api.util.ToString;
 import net.spicesoftware.api.util.time.FrameRanged;
 
 import javax.validation.constraints.Min;
@@ -17,6 +20,7 @@ import static net.spicesoftware.api.util.Validate.*;
  */
 public class SpiceLayer implements Layer {
 
+    @ToString
     private List<FrameRanged<Item>> items = new ArrayList<>();
 
     @Override
@@ -210,7 +214,7 @@ public class SpiceLayer implements Layer {
     }
 
     @Override
-    public void removeItemByIndex(@Min(0) int index) throws IndexOutOfBoundsException {
+    public void removeItemIndex(@Min(0) int index) throws IndexOutOfBoundsException {
         items.remove(index);
     }
 
@@ -233,5 +237,10 @@ public class SpiceLayer implements Layer {
         }
 
         return spiceLayer;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

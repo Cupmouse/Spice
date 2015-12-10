@@ -1,7 +1,8 @@
 package net.spicesoftware.image.gs;
 
 import net.spicesoftware.api.image.gs.EditableGrayScale8Image;
-import net.spicesoftware.api.util.decoration.fill.color.GrayScale8Color;
+import net.spicesoftware.api.decoration.fill.GrayScale8Color;
+import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.api.util.vector.Vector2i;
 
 import javax.validation.constraints.Max;
@@ -65,7 +66,7 @@ public final class SpiceEditableGrayScale8Image extends SpiceGrayScale8Image imp
     @Override
     public void setColor(@Min(0) int x, @Min(0) int y, GrayScale8Color color) {
         validatePosition(x, y);
-        this.data[width * y + x] = (byte) color.w;
+        this.data[width * y + x] = (byte) color.whiteness;
     }
 
     @Override
@@ -81,5 +82,10 @@ public final class SpiceEditableGrayScale8Image extends SpiceGrayScale8Image imp
     @Override
     public SpiceEditableGrayScale8Image copyDeeply() {
         return new SpiceEditableGrayScale8Image(width, height, data);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

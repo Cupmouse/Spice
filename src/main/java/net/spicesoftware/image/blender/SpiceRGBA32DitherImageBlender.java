@@ -3,6 +3,7 @@ package net.spicesoftware.image.blender;
 import net.spicesoftware.api.image.blender.property.IBPropertyDither;
 import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
 import net.spicesoftware.api.util.Pair;
+import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.api.util.vector.Vector2i;
 import net.spicesoftware.image.rgba.SpiceCachedRGBA32Image;
 
@@ -12,7 +13,7 @@ import java.util.Random;
 /**
  * @since 2015/03/31
  */
-public class SpiceRGBA32DitherImageBlender extends SpiceRGBAImageBlender<CachedRGBA32Image, IBPropertyDither> {
+public final class SpiceRGBA32DitherImageBlender extends SpiceRGBAImageBlender<CachedRGBA32Image, IBPropertyDither> {
 
     @Override
     public CachedRGBA32Image blendImage(@Size(min = 2) Pair<CachedRGBA32Image, IBPropertyDither>... images) {
@@ -31,7 +32,7 @@ public class SpiceRGBA32DitherImageBlender extends SpiceRGBAImageBlender<CachedR
 
             for (int pos = 0; pos < size.area(); pos++) {
                 rgba = data[pos];
-                a = ((rgba & 0xFF) * images[i].b.getOpacity()) / 1000;
+                a = ((rgba & 0xFF) * images[i].b.getOpacityProperty().getOpacity()) / 1000;
 
                 // スキップする場合でも乱数は生成する
                 rnd = random.nextInt(0xFF);

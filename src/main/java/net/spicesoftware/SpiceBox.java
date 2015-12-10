@@ -3,7 +3,8 @@ package net.spicesoftware;
 import net.spicesoftware.api.Box;
 import net.spicesoftware.api.layer.Layer;
 import net.spicesoftware.api.layer.StaticField;
-import net.spicesoftware.api.util.decoration.fill.color.RGBA32Color;
+import net.spicesoftware.api.decoration.fill.RGBA32Color;
+import net.spicesoftware.api.util.ToString;
 import net.spicesoftware.api.util.time.FrameTime;
 import net.spicesoftware.api.util.vector.Vector2i;
 import net.spicesoftware.layer.SpiceLayer;
@@ -23,24 +24,36 @@ import static net.spicesoftware.api.util.Validate.positive;
  */
 public abstract class SpiceBox implements Box {
 
+    @ToString
     private int width;
+    @ToString
     private int height;
+    @ToString
     private FrameTime duration;
+    @ToString
     private RGBA32Color backgroundColor;
+    @ToString
     private StaticField staticField;
-    private LinkedList<Layer> layers = new LinkedList<>();
+    @ToString
+    private LinkedList<Layer> layers;
 
     protected SpiceBox(SpiceBox copyFrom) throws NullPointerException {
         nullNot(copyFrom);
         width = copyFrom.width;
         height = copyFrom.height;
-        staticField = copyFrom.staticField.copyDeeply();
+        duration = copyFrom.duration;
         backgroundColor = copyFrom.backgroundColor;
-        layers.addAll(copyFrom.layers.stream().map(Layer::copyDeeply).collect(Collectors.toList()));
+        staticField = copyFrom.staticField.copyDeeply();
+        layers = new LinkedList<>(copyFrom.layers.stream().map(Layer::copyDeeply).collect(Collectors.toList()));
     }
 
     public SpiceBox(int width, int height, FrameTime duration) throws IllegalArgumentException, NullPointerException {
-        this(width, height, duration, new RGBA32Color(0, 0, 0, 0));
+        this.width = width;
+        this.height = height;
+        this.duration = duration;
+        this.backgroundColor = new RGBA32Color(0, 0, 0, 0);
+        resetStaticField();
+        layers = new LinkedList<>();
     }
 
     public SpiceBox(int width, int height, FrameTime duration, RGBA32Color backgroundColor) throws IllegalArgumentException, NullPointerException {
@@ -50,6 +63,8 @@ public abstract class SpiceBox implements Box {
         this.height = height;
         this.duration = duration;
         this.backgroundColor = backgroundColor;
+        resetStaticField();
+        layers = new LinkedList<>();
     }
 
     @Override
@@ -64,7 +79,7 @@ public abstract class SpiceBox implements Box {
 
     @Override
     public Vector2i getSize() {
-        return new Vector2i(width, height);
+        return Vector2i.v2i(width, height);
     }
 
     @Override

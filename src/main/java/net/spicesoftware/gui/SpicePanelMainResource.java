@@ -10,7 +10,10 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Cupmouse
@@ -117,24 +120,10 @@ public class SpicePanelMainResource extends javax.swing.JPanel {
     }//GEN-LAST:event_jMenuItemAddResourceActionPerformed
 
     private void jMenuItemAddFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAddFolderActionPerformed
-        String name = "te" + new Random().nextInt();
-        ResourceTreeFolder newFolder = resourceManager.getRootOfResourceTree().createNewFolder(name);
 
-        TreePath selectionPath = resourceTree.getSelectionPath();
-        DefaultTreeModel model = ((DefaultTreeModel) resourceTree.getModel());
 
-        DefaultMutableTreeNode selectedNode;
-        if (selectionPath != null) {
-            selectedNode = ((DefaultMutableTreeNode) selectionPath.getLastPathComponent());
-        } else {
-            selectedNode = treeRootNode;
-        }
-
-        selectedNode.insert(new DefaultMutableTreeNode(name), selectedNode.getChildCount());
-
-        model.nodeStructureChanged(selectedNode);
-        System.out.println(newFolder);
     }//GEN-LAST:event_jMenuItemAddFolderActionPerformed
+
 
     private void jMenuItemDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDeleteActionPerformed
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) resourceTree.getSelectionPath().getLastPathComponent();

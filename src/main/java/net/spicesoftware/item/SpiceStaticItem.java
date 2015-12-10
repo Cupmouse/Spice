@@ -1,6 +1,7 @@
 package net.spicesoftware.item;
 
 import net.spicesoftware.api.item.StaticItem;
+import net.spicesoftware.api.util.ToString;
 import net.spicesoftware.marker.SpiceMarkers;
 import net.spicesoftware.value.SpiceValues;
 
@@ -9,7 +10,9 @@ import net.spicesoftware.value.SpiceValues;
  */
 public abstract class SpiceStaticItem implements StaticItem {
 
+    @ToString
     private SpiceValues values;
+    @ToString
     private SpiceMarkers markers;
 
     public SpiceStaticItem() {

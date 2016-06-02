@@ -1,10 +1,10 @@
 package net.spicesoftware.gui.common.colorselector;
 
-import net.spicesoftware.api.gui.WindowTitle;
 import net.spicesoftware.api.gui.common.colorpicker.DialogRGB24ColorPicker;
 import net.spicesoftware.api.gui.common.colorpicker.RGB24ColorSelector;
 import net.spicesoftware.api.gui.common.spinner.IntSpinner;
-import net.spicesoftware.gui.SpiceDialog;
+import net.spicesoftware.swinggui.SwingDialogWindow;
+import net.spicesoftware.swinggui.SwingWindowSystem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.awt.event.ItemEvent;
 /**
  * @since 2015/07/04
  */
-public class SpiceDialogRGB24ColorPicker extends SpiceDialog implements DialogRGB24ColorPicker {
+public class SpiceDialogRGB24ColorPicker extends SwingDialogWindow implements DialogRGB24ColorPicker<SwingWindowSystem> {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancel;

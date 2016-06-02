@@ -23,14 +23,14 @@ public final class SpiceImagePatternFilling implements ImagePatternFilling {
     @ToString
     private final int offsetY;
 
-    public SpiceImagePatternFilling(CachedImage image, int offsetX, int offsetY) {
+    protected SpiceImagePatternFilling(CachedImage image, int offsetX, int offsetY) {
         nullNot(image);
         this.image = image;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
     }
 
-    public SpiceImagePatternFilling(CachedImage image, Vector2i offset) {
+    protected SpiceImagePatternFilling(CachedImage image, Vector2i offset) {
         nullNot(image, offset);
         this.image = image;
         this.offsetX = offset.x;
@@ -38,7 +38,7 @@ public final class SpiceImagePatternFilling implements ImagePatternFilling {
     }
 
     @Override
-    public Image getImage() {
+    public CachedImage getImage() {
         return image;
     }
 

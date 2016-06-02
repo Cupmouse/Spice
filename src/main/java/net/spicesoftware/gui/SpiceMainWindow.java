@@ -1,6 +1,9 @@
 package net.spicesoftware.gui;
 
 import net.spicesoftware.SpiceSession;
+import net.spicesoftware.api.gui.MainWindow;
+import net.spicesoftware.swinggui.SwingWindow;
+import net.spicesoftware.swinggui.SwingWindowSystem;
 
 import javax.swing.*;
 
@@ -8,7 +11,7 @@ import javax.swing.*;
  * @author Cupmouse
  * @since 2015/06/09
  */
-public class SpiceMainFrame extends JFrame {
+public class SpiceMainWindow extends SwingWindow implements MainWindow<SwingWindowSystem> {
 
     private final SpiceSession session;
     private ImageIcon windowIcon;
@@ -26,7 +29,7 @@ public class SpiceMainFrame extends JFrame {
     private net.spicesoftware.gui.timeline.SpicePanelTimelineWrapper panelTimeline;
     // End of variables declaration//GEN-END:variables
 
-    public SpiceMainFrame(SpiceSession session) {
+    public SpiceMainWindow(SpiceSession session) {
         this.session = session;
         windowIcon = new ImageIcon(ClassLoader.getSystemResource("windowIcons/spiceIcon16.png"));
         initComponents();

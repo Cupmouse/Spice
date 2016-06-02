@@ -1,22 +1,17 @@
 package net.spicesoftware.registry;
 
 import net.spicesoftware.api.Builder;
-import net.spicesoftware.api.gui.WindowDispenser;
-import net.spicesoftware.api.gui.WindowSystem;
+import net.spicesoftware.api.gui.window.WindowSystem;
 import net.spicesoftware.api.image.CachedImage;
 import net.spicesoftware.api.image.Image;
 import net.spicesoftware.api.image.ImageConverter;
 import net.spicesoftware.api.image.blender.ImageBlender;
 import net.spicesoftware.api.image.blender.property.ImageBlenderProperty;
-import net.spicesoftware.api.registry.ImageBlenderPropertyCreator;
 import net.spicesoftware.api.registry.ImageCreator;
-import net.spicesoftware.api.image.gs.EditableGrayScale8Image;
-import net.spicesoftware.api.image.rgba.CachedRGBA32Image;
-import net.spicesoftware.api.image.rgba.EditableRGBA32Image;
 import net.spicesoftware.api.registry.Registry;
 import net.spicesoftware.api.render.Renderable;
 import net.spicesoftware.api.render.Renderer;
-import net.spicesoftware.api.util.AlreadyRegisteredInRegistryException;
+import net.spicesoftware.api.util.AlreadyRegisteredException;
 import net.spicesoftware.api.util.Pair;
 import net.spicesoftware.api.value.Interpolator;
 
@@ -31,37 +26,39 @@ import java.util.function.Supplier;
  */
 public final class SpiceRegistry implements Registry {
 
-    private final ImageBlenderPropertyCreator imageBlenderPropertyCreator = new SpiceImageBlenderPropertyCreator();
     private final ImageCreator imageCreator = new SpiceImageCreator();
 
     private final Map<Class<? extends Builder>, Supplier<? extends Builder>> builders = new HashMap<>();
 
-    private final Map<String, WindowSystem> windowSystemMap = new HashMap<>();
-    private final Map<WindowSystem, WindowDispenser> windowDispenserMap = new HashMap<>();
+    private final Map<Class<? extends WindowSystem>, WindowSystem> windowSystemMap = new HashMap<>();
     private final Map<Class, Map<String, Interpolator>> interpolators = new HashMap<>();
     private final Map<Pair<Class<? extends CachedImage>, Class<? extends ImageBlenderProperty>>, Map<String, ImageBlender>> imageBlenders = new HashMap<>();
     private final Map<Pair<Class, Class>, Map<String, ImageConverter>> imageConverters = new HashMap<>();
 //    private final Map<Pair<Class, Class>, Map<String, ImageConverter>> imageConverters = new HashMap<>();
 
     @Override
-    public <WS extends WindowSystem> WindowDispenser<WS> getWindowDispenser(WS windowSystem) {
-        return windowDispenserMap.get(windowSystem);
+    public <WS extends WindowSystem<WS>> Optional<WS> getWindowSystem(Class<WS> windowSystemClass) {
+        return Optional.ofNullable(((WS) windowSystemMap.get(windowSystemClass)));
     }
 
     @Override
-    public Optional<WindowSystem> getWindowSystem(String id) {
-        return Optional.ofNullable(windowSystemMap.get(id));
+    public <WS extends WindowSystem<WS>> void registerWindowSystem(Class<WS> windowSystemClass, WS windowSystem) throws AlreadyRegisteredException {
+        if (windowSystemMap.containsKey(windowSystemClass)) {
+            throw new AlreadyRegisteredException();
+        }
+        windowSystemMap.put(windowSystemClass, windowSystem);
     }
+
 
     @Override
     public <T extends Builder> T createBuilder(Class<T> clazz) throws IllegalStateException {
-        return (T) builders.get(clazz).get();
+        return ((Supplier<T>) builders.get(clazz)).get();
     }
 
     @Override
-    public <T extends Builder> void registerBuilder(Class<T> clazz, Supplier<T> builderSupplier) throws AlreadyRegisteredInRegistryException {
+    public <T extends Builder> void registerBuilder(Class<T> clazz, Supplier<T> builderSupplier) throws AlreadyRegisteredException {
         if (builders.containsKey(clazz)) {
-            throw new AlreadyRegisteredInRegistryException();
+            throw new AlreadyRegisteredException();
         }
 
         // TODO 重複チェック（Supplierが毎回同じインスタンスを返していないかチェック）
@@ -83,17 +80,12 @@ public final class SpiceRegistry implements Registry {
     }
 
     @Override
-    public ImageBlenderPropertyCreator getImageBlenderPropertyCreator() {
-        return imageBlenderPropertyCreator;
-    }
-
-    @Override
     public ImageCreator getImageCreator() {
         return imageCreator;
     }
 
     @Override
-    public <T> void registerInterpolator(Class<T> clazz, @Size(min = 1) String id, Interpolator<T> interpolator) throws AlreadyRegisteredInRegistryException {
+    public <T> void registerInterpolator(Class<T> clazz, @Size(min = 1) String id, Interpolator<T> interpolator) throws AlreadyRegisteredException {
         Map<String, Interpolator> classInterpolators;
 
         if ((classInterpolators = interpolators.get(clazz)) == null) {
@@ -141,14 +133,14 @@ public final class SpiceRegistry implements Registry {
     }
 
     @Override
-    public <I extends CachedImage, B extends ImageBlenderProperty> void registerImageBlender(Class<I> clazzI, Class<B> clazzB, @Size(min = 1) String id, ImageBlender<I, B> imageBlender) throws AlreadyRegisteredInRegistryException {
+    public <I extends CachedImage, B extends ImageBlenderProperty> void registerImageBlender(Class<I> clazzI, Class<B> clazzB, @Size(min = 1) String id, ImageBlender<I, B> imageBlender) throws AlreadyRegisteredException {
         Pair pair = Pair.of(clazzI, clazzB);
 
         Map<String, ImageBlender> classImageBlenders = imageBlenders.get(pair);
 
         if (classImageBlenders != null) {
             if (classImageBlenders.containsKey(id)) {
-                throw new AlreadyRegisteredInRegistryException();
+                throw new AlreadyRegisteredException();
             }
         } else {
             imageBlenders.put(pair, classImageBlenders = new HashMap<>());
@@ -191,7 +183,7 @@ public final class SpiceRegistry implements Registry {
     }
 
     @Override
-    public <I extends Image, O extends CachedImage> void registerImageConverter(Class<I> inputImageClass, Class<O> outputImageClass, @Size(min = 1) String id, ImageConverter<I, O> imageConverter) throws AlreadyRegisteredInRegistryException {
+    public <I extends Image, O extends CachedImage> void registerImageConverter(Class<I> inputImageClass, Class<O> outputImageClass, @Size(min = 1) String id, ImageConverter<I, O> imageConverter) throws AlreadyRegisteredException {
         Map<String, ImageConverter> classImageConverter = imageConverters.get(Pair.of(inputImageClass, outputImageClass));
 
         if (classImageConverter == null) {

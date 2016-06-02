@@ -1,5 +1,6 @@
 package net.spicesoftware.decoration.fill.gradient.rgb24;
 
+import net.spicesoftware.api.ParameterEssentialBuilder;
 import net.spicesoftware.api.decoration.fill.RGB24Color;
 import net.spicesoftware.api.decoration.fill.gradient.rgb24.RGB24GradientFillingRadial;
 import net.spicesoftware.api.util.ReflectionToString;
@@ -47,6 +48,13 @@ public final class SpiceRGB24GradientFillingRadialBuilder extends SpiceGradientF
     @Override
     public SpiceRGB24GradientFillingRadial build() {
         return new SpiceRGB24GradientFillingRadial(colorStopMap, repeating, centerXPos, centerYPos);
+    }
+
+    @Override
+    public SpiceRGB24GradientFillingRadialBuilder from(RGB24GradientFillingRadial copy) {
+        radialCenter(copy.getRadialCenter());
+        super.from(copy);
+        return this;
     }
 
     @Override

@@ -1,10 +1,13 @@
 package net.spicesoftware.style;
 
+import net.spicesoftware.api.ParameterEssentialBuilder;
 import net.spicesoftware.api.decoration.fill.DecorationFilling;
 import net.spicesoftware.api.style.StrokeStyle;
 import net.spicesoftware.api.style.TextStyle;
 import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.api.util.ToString;
+
+import javax.xml.soap.Text;
 
 import static net.spicesoftware.api.util.Validate.nullNot;
 
@@ -24,8 +27,9 @@ public final class SpiceTextStyleBuilder implements TextStyle.Builder {
      * @param outline テキストスタイルに設定するアウトラインのスタイル
      */
     @Override
-    public void outline(StrokeStyle outline) {
+    public SpiceTextStyleBuilder outline(StrokeStyle outline) {
         this.outline = outline;
+        return this;
     }
 
     /**
@@ -34,9 +38,10 @@ public final class SpiceTextStyleBuilder implements TextStyle.Builder {
      * @param filling テキストスタイルに設定する文字のデコレーション
      */
     @Override
-    public void fill(DecorationFilling filling) {
+    public SpiceTextStyleBuilder fill(DecorationFilling filling) {
         nullNot(filling);
         this.filling = filling;
+        return this;
     }
 
     @Override

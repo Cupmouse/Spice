@@ -26,9 +26,10 @@ public final class SpiceStrokeStyleBuilder implements StrokeStyle.Builder {
      * @param filling 線スタイルに設定する塗りつぶし
      */
     @Override
-    public void fill(DecorationFilling filling) {
+    public SpiceStrokeStyleBuilder fill(DecorationFilling filling) {
         nullNot(filling);
         this.filling = filling;
+        return this;
     }
 
     /**
@@ -38,9 +39,10 @@ public final class SpiceStrokeStyleBuilder implements StrokeStyle.Builder {
      * @throws IllegalArgumentException 線の太さを0未満に設定しようとした時
      */
     @Override
-    public void thickness(@Min(0) int thickness) throws IllegalArgumentException {
+    public SpiceStrokeStyleBuilder thickness(@Min(0) int thickness) throws IllegalArgumentException {
         zeroOrPositive(thickness);
         this.thickness = thickness;
+        return this;
     }
 
     @Override

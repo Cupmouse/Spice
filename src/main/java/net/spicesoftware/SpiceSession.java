@@ -2,6 +2,8 @@ package net.spicesoftware;
 
 import net.spicesoftware.api.Spice;
 import net.spicesoftware.api.project.Project;
+import net.spicesoftware.api.util.ReflectionToString;
+import net.spicesoftware.api.util.ToString;
 import net.spicesoftware.registry.SpiceRegistry;
 
 import java.util.Optional;
@@ -14,7 +16,9 @@ public final class SpiceSession implements Spice {
     public static final String SPICE_VERSION = "alpha-0.0.1";
     private static SpiceSession instance;
 
+    @ToString
     private SpiceRegistry registry;
+    @ToString
     private Project projectOpening;
 
     public SpiceSession() {
@@ -44,5 +48,10 @@ public final class SpiceSession implements Spice {
     @Override
     public void openProject(Project project) {
         this.projectOpening = project;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToString.rts(this);
     }
 }

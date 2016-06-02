@@ -6,6 +6,8 @@ import net.spicesoftware.api.util.ReflectionToString;
 import net.spicesoftware.api.util.ToString;
 import net.spicesoftware.api.util.Validate;
 
+import static net.spicesoftware.api.util.Validate.nullNot;
+
 /**
  * @since 2015/09/13
  */
@@ -17,7 +19,7 @@ public final class SpiceIBPropertyDither implements IBPropertyDither {
     private final int seed;
 
     public SpiceIBPropertyDither(IBPropertyOpacity opacityProperty, int seed) {
-        Validate.nullNot(opacityProperty);
+        nullNot(opacityProperty);
         this.opacityProperty = opacityProperty;
         this.seed = seed;
     }

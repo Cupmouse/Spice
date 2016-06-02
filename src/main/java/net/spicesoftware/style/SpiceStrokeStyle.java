@@ -21,7 +21,7 @@ public final class SpiceStrokeStyle implements StrokeStyle {
     @ToString
     private final int thickness;
 
-    public SpiceStrokeStyle(DecorationFilling filling, @Min(0) int thickness) {
+    protected SpiceStrokeStyle(DecorationFilling filling, @Min(0) int thickness) {
         nullNot(filling);
         zeroOrPositive(thickness);
         this.filling = filling;

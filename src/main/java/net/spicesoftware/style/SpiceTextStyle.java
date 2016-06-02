@@ -24,7 +24,7 @@ public final class SpiceTextStyle implements TextStyle {
     @ToString
     private final DecorationFilling filling;
 
-    public SpiceTextStyle(@Nullable StrokeStyle outline, DecorationFilling filling) {
+    protected SpiceTextStyle(@Nullable StrokeStyle outline, DecorationFilling filling) {
         nullNot(filling);
         this.outline = outline;
         this.filling = filling;

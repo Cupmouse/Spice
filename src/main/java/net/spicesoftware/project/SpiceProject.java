@@ -20,8 +20,6 @@ public final class SpiceProject implements Project {
 
     // TODO 読み込み
     @ToString
-    private final SpiceSession spiceSession;
-    @ToString
     private String name;
     @ToString
     private ZonedDateTime createdDate;
@@ -30,15 +28,8 @@ public final class SpiceProject implements Project {
     @ToString
     private SpiceResourceManager resourceManager;
 
-    public SpiceProject(SpiceSession spiceSession) throws NullPointerException {
-        nullNot(spiceSession);
-        this.spiceSession = spiceSession;
+    public SpiceProject() throws NullPointerException {
         this.resourceManager = new SpiceResourceManager();
-    }
-
-    @Override
-    public Spice getSpice() {
-        return spiceSession;
     }
 
     @Override

@@ -1,12 +1,14 @@
 package net.spicesoftware.gui.common;
 
+import net.spicesoftware.swinggui.SwingDialogWindow;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * @since 2015/10/03
  */
-public class SpiceMovableUndecoratedDialog extends JDialog {
+public class SpiceMovableUndecoratedDialog extends SwingDialogWindow {
 
     private int pressedY;
     private int pressedX;
